@@ -4,26 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Entrada</title>
 </head>
-<body>
-    <head>
-        <picture>
-            <img src="./assets/logo.png" alt="">
-            <img src="./assets/tsks.png" alt="">
+<body class="bg-[#131317] text-[#FFFFFF]">
+    <header class="mb-10">
+        <picture class="flex justify-center items-center w-screen">
+            <img class="w-36" src="./assets/logo.png" alt="">
+            <img class="w-28"src="./assets/tsks.png" alt="">
         </picture>
         <div>
-            <h3>Organize sua vida</h3>
+            <h3 class="text-center text-lg">Organize sua vida</h3>
         </div>
-    </head>
-    <main>
+    </header>
 
-        <label for="email">Email</label>
-        <input type="email"name="email" id="email">
-        <label for="password">Senha</label>
-        <input type="password" name="password" id="password">
-        <input type="checkbox" name="checkbox" id="checkbox">
-        <label for="remember">Lembrar-me</label>
+    <main class="flex flex-col p-4 leading-10">
+
+        <label for="email" class="text-[1.5rem]">Email</label>
+        <input type="email"name="email" id="email" placeholder="Digite seu email" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6">
+        <label for="password" class="text-[1.5rem]">Senha</label>
+        <input type="password" name="password" id="password" placeholder="Digite sua senha" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6">
+        <div class="mt-4 flex bg-[#131317]">
+            <input type="checkbox" name="checkbox" id="checkbox" class="w-10 h-8 border-2 border-[#C7379C] bg-[#131317] ">
+            <label for="remember" >Lembrar-me</label>
+        </div>
+       
 
         <button type="submit">Entrar</button>
         <p>Ainda não tem conta? <a href="#">Cadastre-se</a></p>
