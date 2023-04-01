@@ -7,32 +7,28 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Entrada</title>
 </head>
-<body class="bg-[#131317] text-[#FFFFFF]">
-    <header class="mb-10">
-        <picture class="flex justify-center items-center w-screen">
+<body class="bg-[#131317] text-[#FFFFFF] sm:flex sm:justify-around sm:items-center sm:w-full mt-6">
+    <header class="mb-10 sm:mb-0">
+        <picture class="flex justify-center items-center w-screen sm:w-full">
             <img class="w-36" src="./assets/logo.png" alt="">
             <img class="w-28"src="./assets/tsks.png" alt="">
         </picture>
-        <div>
+        <text>
             <h3 class="text-center text-lg">Organize sua vida</h3>
-        </div>
+        </text>
     </header>
 
-    <main class="flex flex-col p-4 leading-10">
-
+    <main class="flex flex-col p-4 leading-10 w-46">
         <label for="email" class="text-[1.5rem]">Email</label>
         <input type="email"name="email" id="email" placeholder="Digite seu email" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6">
         <label for="password" class="text-[1.5rem]">Senha</label>
         <input type="password" name="password" id="password" placeholder="Digite sua senha" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6">
-        <div class="mt-4 flex bg-[#131317]">
-            <input type="checkbox" name="checkbox" id="checkbox" class="w-10 h-8 border-2 border-[#C7379C] bg-[#131317] ">
-            <label for="remember" >Lembrar-me</label>
+        <div class="mt-6 flex">
+            <input type="checkbox" name="checkbox" id="checkbox" class="w-10 h-8">
+            <label for="remember" class="text-[1.2rem]">Lembrar-me</label>
         </div>
-       
-
-        <button type="submit">Entrar</button>
-        <p>Ainda não tem conta? <a href="#">Cadastre-se</a></p>
-
+        <button type="submit" class="bg-[#C7379C] rounded-2xl text-2xl h-12 text-center mt-6">Entrar</button>
+        <p class="mt-4 text-center">Ainda não tem conta? <a href="#"class="text-[#C7379C]">Cadastre-se</a></p>  
     </main>
 </body>
 </html>
