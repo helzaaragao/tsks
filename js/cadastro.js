@@ -6,15 +6,19 @@ let configuracoesRequisicao = {
         "email": "afrataiza@test.com",
         "password": "12345678"
       }, 
-    Headers:{ 
+    headers:{ 
         'Content-type': 'application/json'
     },
 }
+        //function muxando dos pinuts esses valores
 
 async function cadastro(){ 
     const resposta = await fetch("https://todo-api.ctd.academy/v1/users", configuracoesRequisicao)
     let chaveJwt = await resposta.json();
-    console.log(chaveJwt);
+    if(chaveJwt.jwt){
+        window.location.href = "./index.html";
+       
+    }
 }
 
 cadastro();
