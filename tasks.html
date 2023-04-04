@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <title>TSKS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body class="font-['Montserrat']">
+    <header class="bg-[#2B2A2E] flex w-screen h-24 gap-8 items-center px-8 sm:justify-between">
+        <!-- menu hamburguer -->
+        <label for="my-drawer-2"
+            class="btn btn-circle bg-transparent border-none swap swap-rotate btn-ghost drawer-button sm:hidden">
+
+            <!-- this hidden checkbox controls the state -->
+            <input type="checkbox" aria-label="menu hamburguer" />
+
+            <!-- hamburger icon -->
+            <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                viewBox="0 0 512 512">
+                <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
+            </svg>
+
+            <!-- close icon -->
+            <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                viewBox="0 0 512 512">
+                <polygon
+                    points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
+            </svg>
+
+        </label>
+        <div>
+            <img src="./images/logo.png" alt="Imagem com Logo do Aplicativo">
+        </div>
+        <nav class="h-full flex items-center gap-10 w-1/2 justify-end">
+            <!-- search bar -->
+            <div class="hidden sm:flex items-center rounded-full bg-[#131317]/50 pr-2 w-full">
+                <input type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
+                    class="rounded-lg pl-4 bg-transparent outline-0 text-white w-full border-none focus:ring-transparent">
+                <button id="search" type="button" aria-label="Botão de pesquisa" class="w-10 h-10">
+                    <i class="fi fi-rr-search text-white text-lg"></i>
+                </button>
+            </div>
+
+            <!-- add button -->
+            <label for="my-modal"
+                class="hidden sm:block btn btn-sm bg-gradient-to-r from-pink-500 via-pink-600 to-pink-700 hover:bg-gradient-to-br cursor-pointer">
+                <i class="fi fi-rr-plus h-full flex items-center text-white"></i>
+            </label>
+
+            <!-- menu profile -->
+            <div class="dropdown dropdown-end dropdown-bottom">
+                <label tabindex="0" class="btn hover:bg-pink-600 bg-transparent btn-circle avatar placeholder">
+                    <div class="ring-1 ring-pink-500 text-pink-500 hover:text-neutral-content rounded-full w-24">
+                        <span id="user-button-text" class="text-xl">BG</span>
+                    </div>
+                </label>
+                <div tabindex="0"
+                    class="dropdown-content card card-compact w-64 shadow text-primary-content mt-8 bg-[#333333] p-2">
+                    <div>
+                        <h3 id="user-name" class="pl-2 font-medium">Bonnie Green</h3>
+                        <p id="user-email" class="font-medium truncate text-gray-400 pl-2">name@example.com</p>
+                        <div class="divider"></div>
+                        <a href="#" id="logout-btn"
+                            class="hover:bg-zinc-700 pl-2 h-8 flex items-center gap-4 rounded-lg">
+                            <i class="fi fi-rr-exit h-full flex items-center"></i>
+                            <span>Sair</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="min-h-screen w-screen bg-[#131317] flex">
+        <section class="drawer drawer-mobile">
+            <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content flex flex-col min-h-screen relative">
+                <!-- Tarefas Listadas -->
+                <section id="tasks-container" class="pt-2 flex flex-col items-center w-full gap-8 drawer-content h-ful">
+                    <h3 id="date" class="w-full pl-4 font-medium">01 de abr - Sab</h3>
+                    <!-- mobile search bar -->
+                    <div class="sm:hidden flex items-center rounded-full bg-[#333333]/50 pr-2 w-2/3">
+                        <input type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
+                            class="rounded-lg pl-4 bg-transparent outline-0 text-white w-full border-none focus:ring-transparent">
+                        <button type="button" aria-label="Botão de pesquisa" class="w-10 h-10">
+                            <i class="fi fi-rr-search text-white text-lg"></i>
+                        </button>
+                    </div>
+                    <div id="pendent-container" class="w-full p-8 flex flex-col gap-8">
+                        <h2 class="w-full text-white text-2xl">Tarefas Pendentes</h2>
+                        <div id="pendent-task-card" class="bg-base-200 sm:w-1/2 px-4 flex rounded-md justify-between ">
+                            <div class="flex items-center gap-4 text-white w-full">
+                                <input id="pendent-task-checkbox" type="checkbox"
+                                    class="checkbox checkbox-secondary rounded-full" />
+                                <label for="pendent-task-checkbox"> Fazer exercícios diariamente</label>
+                            </div>
+                            <div class="flex flex-col h-ful justify-between items-end w-1/4 pt-1">
+                                <i class="fi fi-rr-trash text-white text-lg cursor-pointer"></i>
+                                <span class="text-sm">01/04/2023</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="complete-container" class="w-full p-8 flex flex-col gap-8">
+                        <h2 class="w-full text-white text-2xl">Tarefas Completas</h2>
+                        <div id="complete-task-card" class="bg-base-200 sm:w-1/2 px-4 flex rounded-md justify-between ">
+                            <div id="complete-task" class="flex items-center gap-4 line-through w-full">
+                                <input id="complete-task-checkbox" type="checkbox" checked
+                                    class="checkbox checkbox-secondary rounded-full" />
+                                <label for="complete-task-checkbox">Estudar Javascript</label>
+                            </div>
+                            <div class="flex flex-col h-ful justify-between items-end w-1/4 pt-1">
+                                <i class="fi fi-rr-trash text-white text-lg cursor-pointer"></i>
+                                <span class="text-sm">01/04/2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <label for="my-modal"
+                    class="sm:hidden absolute bottom-0 right-0 m-4 btn btn-sm btn-circle bg-gradient-to-r from-pink-500 via-pink-600 to-pink-700 hover:bg-gradient-to-br cursor-pointer">
+                    <i class="fi fi-rr-plus h-full flex items-center text-white"></i>
+                </label>
+            </div>
+            <nav class="drawer-side">
+                <label for="my-drawer-2" class="drawer-overlay"></label>
+                <ul class="w-52 p-4 bg-[#2B2A2E]">
+                    <li
+                        class="flex gap-3 pl-2 text-xl items-center h-10 hover:bg-zinc-600 rounded-md text-white cursor-default">
+                        <i class="fi fi-rr-calendar-day flex h-10 items-center text-green-500"></i>
+                        <span>Hoje</span>
+                    </li>
+                    <li
+                        class="flex gap-3 pl-2 text-xl items-center h-10 hover:bg-zinc-600 rounded-md text-white cursor-default">
+                        <i class="fi fi-rr-calendar-day flex h-10 items-center text-yellow-500"></i>
+                        <span>Ontem</span>
+                    </li>
+                    <li
+                        class="flex gap-3 pl-2 text-xl items-center h-10 hover:bg-zinc-600 rounded-md text-white cursor-default">
+                        <i class="fi fi-rr-calendar flex h-10 items-center text-cyan-500"></i>
+                        <span>Semana</span>
+                    </li>
+                    <li
+                        class="flex gap-3 pl-2 text-xl items-center h-10 hover:bg-zinc-600 rounded-md text-white cursor-default">
+                        <i class="fi fi-rr-calendar-days flex h-10 items-center text-violet-500"></i>
+                        <span>Mês</span>
+                    </li>
+                    <li
+                        class="flex gap-3 pl-2 text-xl items-center h-10 hover:bg-zinc-600 rounded-md text-white cursor-default">
+                        <i class="fi fi-rr-apps flex h-10 items-center text-pink-500"></i>
+                        <span>Todas</span>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+        <!-- Modal para adicionar tarefa -->
+        <input type="checkbox" id="my-modal" class="modal-toggle" />
+        <div class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box relative text-white bg-base-200">
+                <label for="my-modal" class="text-secondary font-bold cursor-pointer absolute right-2 top-1">✕</label>
+                <label for="new-task">Nova Tarefa</label>
+                <input id="new-task" type="text" placeholder="Digite sua tarefa"
+                    class="w-full mt-1 h-10 px-2 bg-transparent border-[#d9d9d9] border rounded-lg">
+                <div class="modal-action">
+                    <label for="my-modal" class="btn btn-sm btn-secondary">Salvar</label>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="./js/script.js"></script>
+</body>
+
+</html>
