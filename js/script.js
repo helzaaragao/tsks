@@ -1,34 +1,60 @@
+const jwt = localStorage.getItem('jwt');
+
+async function getUser() {
+    const config = {
+        method: 'GET',
+        headers: {
+            'authorization': jwt,
+        }
+    };
+    try {
+        const response = await fetch(`${baseUrl}/users/getMe`, config);
+        const data = await response.json();
+        const profileButton = document.querySelector('#user-button-text');
+        const userName = document.querySelector('#user-name');
+        const userEmail = document.querySelector('#user-email');
+        userName.innerText = `${data.firstName} ${data.lastName}`;
+        userEmail.innerText = data.email;
+        profileButton.innerText = `${data.firstName.slice(0, 1)}${data.lastName.slice(0, 1)}`
+    } catch (error) {
+        if (error === 'invalid token') {
+            console.log('redireciona');
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+   if (jwt === null || jwt === undefined || jwt === '') {
+    window.location.href = './index.html';
+   } else {
+     getUser();
+   }
+});
+
 const timelineDate = document.querySelector('#date');
 const date = new Date();
 const options = { month: 'short', day: 'numeric', weekday: 'short'};
 timelineDate.innerText =  date.toLocaleDateString('pt-Br', options).toUpperCase().replaceAll('.', '');
 
+const baseUrl = 'https://todo-api.ctd.academy/v1';
 
-let loginUsuario = { 
-        email: "afrataiza@007.com",
-        password: "xxx"
+async function getTasks() {
+    const config = {
+        method: 'GET',
+        headers: {
+            'authorization': jwt,
+        }
+    };
+    try {
+        const response = await fetch(`${baseUrl}/tasks`, config);
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-const loginUsuarioJson = JSON.stringify(loginUsuario); 
+getTasks();
 
-let configuracoesRequisicao = { 
-    method: 'POST', 
-    body: loginUsuarioJson, 
-    headers:{ 
-        'Content-type': 'application/json',
-    },
-}
-
-async function fazerLogin(){ 
-    const resposta = await fetch("https://todo-api.ctd.academy/v1/users/login", configuracoesRequisicao)
-    let chaveJwt = await resposta.json();
-    console.log(resposta);  
-    // if(chaveJwt.jwt){
-    //     window.location.href = "./index.html";
-       
-    // }
-}
 
 const search = document.querySelector('#search');
-
-search.addEventListener('click', fazerLogin);
