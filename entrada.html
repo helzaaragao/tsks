@@ -25,11 +25,17 @@
         <input type="email"name="email" id="email" placeholder="Digite seu email" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6 sm:w-[24rem]">
         <label for="password" class="text-[1.5rem] sm:text-[1.2rem]">Senha</label>
         <input type="password" name="password" id="password" placeholder="Digite sua senha" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6 sm:w-[24rem]">
-        <div class="mt-6 flex">
-            <input type="checkbox" name="checkbox" id="checkbox" class="w-10 h-8 ">
-            <label for="remember" class="text-[1.2rem] sm:text-[1rem]">Lembrar-me</label>
+        <div class="mt-6 flex w-full">
+            <div>
+                <input type="checkbox" name="checkbox" id="checkbox-remember" class="w-10 h-6 ">
+                <label for="remember" class="text-[1.2rem] sm:text-[1rem]">Lembrar-me</label>
+            </div>
+            <div>
+                <input type="checkbox" id="show-password-checkbox" class="w-10 h-6 ">
+                <label for="text" class="text-[1.2rem] sm:text-[1rem]">Mostrar senha</label>
+            </div>
         </div>
-        <button type="button" class="bg-[#C7379C] rounded-2xl text-2xl h-12 text-center mt-6" id="login">Entrar</button>
+        <button type="button" disabled class="bg-[#C7379C] rounded-2xl text-2xl h-12 text-center mt-6 " id="login">Entrar</button>
         <p class="mt-4 text-center">Ainda não tem conta? <a href="./cadastro.html"class="text-[#C7379C]">Cadastre-se</a></p>  
     </form>
 </body>
