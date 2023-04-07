@@ -1,6 +1,6 @@
 const baseUrl = 'https://todo-api.ctd.academy/v1';
 
-export default async function getUser(jwt) {
+export async function getUser(jwt) {
     const config = {
         method: 'GET',
         headers: {
@@ -16,3 +16,19 @@ export default async function getUser(jwt) {
     }
 }
 
+
+export async function getTasks(jwt) {
+    const config = {
+      method: 'GET',
+      headers: {
+        authorization: jwt,
+      },
+    };
+    try {
+      const response = await fetch(`${baseUrl}/tasks`, config);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
