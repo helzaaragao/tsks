@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon" />
     <title>TSKS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-
 </head>
 
 <body class="font-['Montserrat']">
-    <header class="bg-[#2B2A2E] flex w-screen h-24 gap-8 items-center px-8 sm:justify-between">
+    <header class="hidden bg-[#2B2A2E] flex w-screen h-24 gap-8 items-center px-8 sm:justify-between">
         <!-- menu hamburguer -->
         <label for="my-drawer-2"
             class="btn btn-circle bg-transparent border-none swap swap-rotate btn-ghost drawer-button sm:hidden">
@@ -81,7 +81,115 @@
         </nav>
     </header>
     <main class="min-h-screen w-screen bg-[#131317] flex">
-        <section class="drawer drawer-mobile">
+        <section id="skelleton" class="w-screen min-h-screen">
+            <div role="status" class="w-screen p-4 space-y-4 border rounded shadow animate-pulse border-gray-700">
+                <div class="flex items-center gap-4 justify-between w-full">
+                    <div class="sm:hidden w-16 h-8 rounded-md bg-gray-700"></div>
+                    <div class="w-32 h-8 rounded-md bg-gray-700"></div>
+                    <div class="flex items-center gap-4 w-full justify-end px-8">
+                        <div class="hidden sm:block h-6 rounded-full bg-gray-700 w-1/2"></div>
+                        <div class="hidden sm:block w-8 h-8 rounded-md bg-gray-700"></div>
+                        <div class="rounded-full bg-gray-600 h-10 w-10"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex">
+                <div role="status"
+                    class=" hidden sm:block min-h-screen flex flex-col gap-6 p-4 space-y-4 border rounded shadow animate-pulse md:p-6 border-gray-700">
+                    <div class="flex items-center gap-4">
+                        <div class="rounded-md bg-gray-600 h-6 w-6"></div>
+                        <div class="flex items-center justify-between w-full">
+                            <div>
+                                <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
+                                <div class="w-32 h-2 rounded-full bg-gray-700"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="rounded-md bg-gray-600 h-6 w-6"></div>
+                        <div class="flex items-center justify-between w-full">
+                            <div>
+                                <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
+                                <div class="w-32 h-2 rounded-full bg-gray-700"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="rounded-md bg-gray-600 h-6 w-6"></div>
+                        <div class="flex items-center justify-between w-full">
+                            <div>
+                                <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
+                                <div class="w-32 h-2 rounded-full bg-gray-700"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="rounded-md bg-gray-600 h-6 w-6"></div>
+                        <div class="flex items-center justify-between w-full">
+                            <div>
+                                <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
+                                <div class="w-32 h-2 rounded-full bg-gray-700"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="flex flex-col gap-8 p-10 sm:p-24 w-full h-full">
+                    <div role="status"
+                        class="sm:w-1/2 p-4 space-y-4 border divide-y rounded shadow animate-pulse divide-gray-700 md:p-6 border-gray-700">
+                        <div class="flex items-center gap-4">
+                            <div class="rounded-full bg-gray-600 h-5 w-5"></div>
+                            <div class="flex items-center justify-between w-full">
+                                <div>
+                                    <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
+                                    <div class="w-32 h-2 rounded-full bg-gray-700"></div>
+                                </div>
+                                <div class="h-2.5 rounded-full bg-gray-700 w-12 "></div>
+                            </div>
+                        </div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div role="status"
+                        class="sm:w-1/2 p-4 space-y-4 border divide-y rounded shadow animate-pulse divide-gray-700 md:p-6 border-gray-700">
+                        <div class="flex items-center gap-4">
+                            <div class="rounded-full bg-gray-600 h-5 w-5"></div>
+                            <div class="flex items-center justify-between w-full">
+                                <div>
+                                    <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
+                                    <div class="w-32 h-2 rounded-full bg-gray-700"></div>
+                                </div>
+                                <div class="h-2.5 rounded-full bg-gray-700 w-12 "></div>
+                            </div>
+                        </div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div role="status"
+                        class="sm:w-1/2 p-4 space-y-4 border divide-y rounded shadow animate-pulse divide-gray-700 md:p-6 border-gray-700">
+                        <div class="flex items-center gap-4">
+                            <div class="rounded-full bg-gray-600 h-5 w-5"></div>
+                            <div class="flex items-center justify-between w-full">
+                                <div>
+                                    <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
+                                    <div class="w-32 h-2 rounded-full bg-gray-700"></div>
+                                </div>
+                                <div class="h-2.5 rounded-full bg-gray-700 w-12 "></div>
+                            </div>
+                        </div>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div id="warnig-alert" class="hidden alert shadow-lg mt-8 w-1/2 self-center">
+                        <div class="flex gap-4">
+                            <i class="fi fi-rr-triangle-warning flex items-center h-full"></i>
+                            <span>Seu login expirou. Por favor faça login novamente.</span>
+                        </div>
+                        <div class="flex-none">
+                            <button id="reload-login" type="button" class="btn btn-sm btn-secondary">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="content" class="hidden drawer drawer-mobile">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content flex flex-col min-h-screen relative">
                 <!-- Tarefas Listadas -->
@@ -95,32 +203,40 @@
                             <i class="fi fi-rr-search text-white text-lg"></i>
                         </button>
                     </div>
+                    <!-- Tarefas Pendentes -->
                     <div id="pendent-container" class="w-full p-8 flex flex-col gap-8">
                         <h2 class="w-full text-white text-2xl">Tarefas Pendentes</h2>
-                        <div id="pendent-task-card" class="bg-base-200 sm:w-1/2 px-4 flex rounded-md justify-between ">
-                            <div class="flex items-center gap-4 text-white w-full">
-                                <input id="pendent-task-checkbox" type="checkbox"
-                                    class="checkbox checkbox-secondary rounded-full" />
-                                <label for="pendent-task-checkbox"> Fazer exercícios diariamente</label>
+                        <div id="task-loading-pendent" role="status"
+                            class="max-w-md p-4 space-y-4 border divide-y rounded shadow animate-pulse divide-gray-700 md:p-6 border-gray-700">
+                            <div class="flex items-center gap-4">
+                                <div class="rounded-full bg-gray-600 h-5 w-5"></div>
+                                <div class="flex items-center justify-between w-full">
+                                    <div>
+                                        <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
+                                        <div class="w-32 h-2 rounded-full bg-gray-700"></div>
+                                    </div>
+                                    <div class="h-2.5 rounded-full bg-gray-700 w-12 "></div>
+                                </div>
                             </div>
-                            <div class="flex flex-col h-ful justify-between items-end w-1/4 pt-1">
-                                <i class="fi fi-rr-trash text-white text-lg cursor-pointer"></i>
-                                <span class="text-sm">01/04/2023</span>
-                            </div>
+                            <span class="sr-only">Loading...</span>
                         </div>
                     </div>
-                    <div id="complete-container" class="w-full p-8 flex flex-col gap-8">
+                    <!-- Tarefas Completas -->
+                    <div id="completed-container" class="w-full p-8 flex flex-col gap-8">
                         <h2 class="w-full text-white text-2xl">Tarefas Completas</h2>
-                        <div id="complete-task-card" class="bg-base-200 sm:w-1/2 px-4 flex rounded-md justify-between ">
-                            <div id="complete-task" class="flex items-center gap-4 line-through w-full">
-                                <input id="complete-task-checkbox" type="checkbox" checked
-                                    class="checkbox checkbox-secondary rounded-full" />
-                                <label for="complete-task-checkbox">Estudar Javascript</label>
+                        <div id="task-loading-completed" role="status"
+                            class="max-w-md p-4 space-y-4 border divide-y rounded shadow animate-pulse divide-gray-700 md:p-6 border-gray-700">
+                            <div class="flex items-center gap-4">
+                                <div class="rounded-full bg-gray-600 h-5 w-5"></div>
+                                <div class="flex items-center justify-between w-full">
+                                    <div>
+                                        <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
+                                        <div class="w-32 h-2 rounded-full bg-gray-700"></div>
+                                    </div>
+                                    <div class="h-2.5 rounded-full bg-gray-700 w-12 "></div>
+                                </div>
                             </div>
-                            <div class="flex flex-col h-ful justify-between items-end w-1/4 pt-1">
-                                <i class="fi fi-rr-trash text-white text-lg cursor-pointer"></i>
-                                <span class="text-sm">01/04/2023</span>
-                            </div>
+                            <span class="sr-only">Loading...</span>
                         </div>
                     </div>
                 </section>
@@ -163,7 +279,7 @@
         <!-- Modal para adicionar tarefa -->
         <input type="checkbox" id="my-modal" class="modal-toggle" />
         <div class="modal modal-bottom sm:modal-middle">
-            <div class="modal-box relative text-white bg-base-200">
+            <div class="modal-box relative text-white bg-[#333333]">
                 <label for="my-modal" class="text-secondary font-bold cursor-pointer absolute right-2 top-1">✕</label>
                 <label for="new-task">Nova Tarefa</label>
                 <input id="new-task" type="text" placeholder="Digite sua tarefa"
@@ -174,7 +290,7 @@
             </div>
         </div>
     </main>
-    <script src="./js/script.js"></script>
+    <script src="./js/script.js" type="module"></script>
 </body>
 
 </html>
