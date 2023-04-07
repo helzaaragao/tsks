@@ -32,3 +32,19 @@ export async function getTasks(jwt) {
       console.log(error);
     }
   }
+
+  export async function deleteTask(id, jwt) {
+    const config = {
+      method: 'DELETE',
+      headers: {
+        authorization: jwt,
+      },
+    };
+    try {
+      const response = await fetch(`${baseUrl}/tasks/${id}`, config);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
