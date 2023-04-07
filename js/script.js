@@ -1,6 +1,15 @@
 const jwt = localStorage.getItem('jwt');
 import {getUser, getTasks, deleteTask} from './helpers.js';
 
+function showContent() {
+    const header = document.querySelector('header');
+    const skelleton = document.querySelector('#skelleton');
+    const content = document.querySelector('#content');
+    skelleton.classList.add('hidden');
+    header.classList.remove('hidden');
+    content.classList.remove('hidden');
+}
+
 async function userInfoShow() {
   const userResponse = await getUser(jwt);
   if (userResponse === 'invalid token') {
@@ -12,25 +21,20 @@ async function userInfoShow() {
     const profileButton = document.querySelector('#user-button-text');
     const userName = document.querySelector('#user-name');
     const userEmail = document.querySelector('#user-email');
-    const header = document.querySelector('header');
-    const skelleton = document.querySelector('#skelleton');
-    const content = document.querySelector('#content');
     userName.innerText = `${userResponse.firstName} ${userResponse.lastName}`;
     userEmail.innerText = userResponse.email;
     profileButton.innerText = `${userResponse.firstName.slice(0, 1)}${userResponse.lastName.slice(0, 1)}`;
-    skelleton.classList.add('hidden');
-    header.classList.remove('hidden');
-    content.classList.remove('hidden');
+    showContent();
   }
 }
 
-window.addEventListener('load', () => {
-  if (jwt === null || jwt === undefined || jwt === '') {
-    window.location.href = './index.html';
-  } else {
-    userInfoShow();
-  }
-});
+function logout() {
+  localStorage.removeItem('jwt');
+  window.location.href = './index.html';  
+}
+
+const buttonLogout = document.querySelector('#logout-btn');
+buttonLogout.addEventListener('click', logout)
 
 const timelineDate = document.querySelector('#date');
 const date = new Date();
@@ -102,33 +106,58 @@ function createTaskCard(description, createdAt, completed, id) {
 
 async function showPendentTasks() {
   const tasks = await getTasks(jwt);
+  if (tasks !== 'invalid token') {
+    const pendentSkelleton = document.querySelector('#task-loading-pendent');
+    pendentSkelleton.classList.add('hidden');
+    const emptyMsg = newElement('span', ['ml-4'], 'Sem tarefas por aqui!');
 
-  tasks.forEach(({ description, createdAt, completed, id }) => {
-    if (!completed) {
-      const task = createTaskCard(description, createdAt, completed, id);
-      pendentTasksContainer.appendChild(task);
+    if (tasks.length > 0) {
+        tasks.forEach(({ description, createdAt, completed, id }) => {
+            if (!completed) {
+            const task = createTaskCard(description, createdAt, completed, id);
+            pendentTasksContainer.appendChild(task);
+            emptyMsg.classList.add('hidden')
+            } else {
+            pendentTasksContainer.appendChild(emptyMsg);
+            }
+        });
     } else {
-      const emptyMsg = document.createElement('span');
-      emptyMsg.innerText = 'Sem tarefas por aqui!';
-      pendentTasksContainer.appendChild(emptyMsg);
+        pendentTasksContainer.appendChild(emptyMsg);
     }
-  });
+  }
 }
 
 async function showCompletedTasks() {
   const tasks = await getTasks(jwt);
 
-  tasks.forEach(({ description, createdAt, completed, id }) => {
-    if (completed) {
-      const task = createTaskCard(description, createdAt, completed, id);
-      completedTasksContainer.appendChild(task);
+  if (tasks !== 'invalid token') {
+    const completedSkelleton = document.querySelector('#task-loading-completed');
+    completedSkelleton.classList.add('hidden');
+    const completedEmptyMsg = newElement('span', ['ml-4'], 'Sem tarefas por aqui!');
+    
+    if (tasks.length > 0) {
+        tasks.forEach(({ description, createdAt, completed, id }) => {
+            if (completed) {
+            const task = createTaskCard(description, createdAt, completed, id);
+            completedTasksContainer.appendChild(task);
+            completedEmptyMsg.classList.add('hidden');
+            } else {
+            completedTasksContainer.appendChild(completedEmptyMsg);
+            }
+        });
     } else {
-      const emptyMsg = document.createElement('span');
-      emptyMsg.innerText = 'Sem tarefas por aqui!';
-      completedTasksContainer.appendChild(emptyMsg);
+        completedTasksContainer.appendChild(completedEmptyMsg);
     }
-  });
+  }  
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (jwt === null || jwt === undefined || jwt === '') {
+    window.location.href = './index.html';
+  } else {
+    userInfoShow();
+  }
+});
 
 window.onload = () => {
     showPendentTasks();
