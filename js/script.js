@@ -1,10 +1,13 @@
 const jwt = localStorage.getItem('jwt');
-import getUser from './helpers.js';
+import {getUser, getTasks} from './helpers.js';
 
 async function userInfoShow() {
   const userResponse = await getUser(jwt);
   if (userResponse === 'invalid token') {
-    window.location.href = './index.html';
+    const warningAlert = document.querySelector('#warning-alert');
+    warningAlert.classList.remove('hidden');
+    const reloadLogin = document.querySelector('#reload-login');
+    reloadLogin.addEventListener('click', () => window.location.href = './index.html');
   } else {
     const profileButton = document.querySelector('#user-button-text');
     const userName = document.querySelector('#user-name');
@@ -25,7 +28,7 @@ window.addEventListener('load', () => {
   if (jwt === null || jwt === undefined || jwt === '') {
     window.location.href = './index.html';
   } else {
-    // userInfoShow();
+    userInfoShow();
   }
 });
 
@@ -39,143 +42,79 @@ timelineDate.innerText = date
 
 const baseUrl = 'https://todo-api.ctd.academy/v1';
 
-async function getTasks() {
-  const config = {
-    method: 'GET',
-    headers: {
-      authorization: jwt,
-    },
-  };
-  try {
-    const response = await fetch(`${baseUrl}/tasks`, config);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function deleteTask(id) {
-  const config = {
-    method: 'DELETE',
-    headers: {
-      authorization: jwt,
-    },
-  };
-  try {
-    const response = await fetch(`${baseUrl}/tasks/${id}`, config);
-    const data = await response.json();
-    console.log(data);
-    window.location.reload();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 const pendentTasksContainer = document.querySelector('#pendent-container');
 
 const completedTasksContainer = document.querySelector('#completed-container');
 
-function createTask(description, createdAt, completed, id) {
-  const taskCard = document.createElement('div');
-  taskCard.classList.add(
-    'bg-base-200',
-    'sm:w-1/2',
-    'px-4',
-    'flex',
-    'rounded-md',
-    'justify-between'
-  );
+function newElement(tag, listClass = [], text = '') {
+    const element = document.createElement(tag);
+    if (listClass.length > 0) {
+       listClass.forEach(item => {
+        element.classList.add(item);
+       });
+    }
+    if (text.length > 0) {
+        element.innerText = text;
+    }
+    return element;
+}
 
-  const taskText = document.createElement('div');
+function createTaskCard(description, createdAt, completed, id) {
+  const taskCard = newElement('div', ['bg-base-200', 'sm:w-1/2', 'px-4', 'flex', 'rounded-md', 'justify-between'])
 
-  const checkboxTask = document.createElement('input');
+  const taskText = newElement('div');
+
+  const checkboxTask = newElement('input', ['checkbox', 'checkbox-secondary', 'rounded-full'])
   checkboxTask.type = 'checkbox';
-  checkboxTask.classList.add('checkbox', 'checkbox-secondary', 'rounded-full');
   checkboxTask.checked = completed;
-
-  const labelTask = document.createElement('label');
-  labelTask.innerText = description;
-
   taskText.appendChild(checkboxTask);
+
+  const labelTask = newElement('label', [], description) 
   taskText.appendChild(labelTask);
 
-  const taskInfo = document.createElement('div');
-  taskInfo.classList.add(
-    'flex',
-    'flex-col',
-    'h-ful',
-    'justify-between',
-    'items-end',
-    'w-1/4',
-    'pt-1'
-  );
+  const taskInfo = newElement('div', ['flex', 'flex-col', 'h-ful', 'justify-between', 'items-end', 'w-1/4', 'pt-1'])
 
-  const taskDate = document.createElement('span');
-  const dateAtTask = new Date(createdAt.slice(0, createdAt.indexOf('T')));
-  taskDate.innerText = dateAtTask.toLocaleDateString('pt-BR');
-  taskDate.classList.add('text-sm');
-
-  const taskTrash = document.createElement('i');
-  taskTrash.classList.add(
-    'fi',
-    'fi-rr-trash',
-    'text-white',
-    'text-lg',
-    'cursor-pointer'
-  );
+  const taskTrash = newElement('i', ['fi', 'fi-rr-trash', 'text-white', 'text-lg', 'cursor-pointer'])
   taskTrash.addEventListener('click', () => deleteTask(id));
-
   taskInfo.appendChild(taskTrash);
-  taskInfo.appendChild(taskDate);
 
+  const dateAtTask = new Date(createdAt.slice(0, createdAt.indexOf('T')));
+  const taskDate = newElement('span', ['text-sm'], dateAtTask.toLocaleDateString('pt-BR'));
+  taskInfo.appendChild(taskDate);
+  
   taskCard.appendChild(taskText);
   taskCard.appendChild(taskInfo);
 
   if (!completed) {
-    taskText.classList.add(
-      'flex',
-      'items-center',
-      'gap-4',
-      'text-white',
-      'w-full'
-    );
+    taskText.classList.add('flex', 'items-center', 'gap-4', 'text-white', 'w-full');
   } else {
-    taskText.classList.add(
-      'flex',
-      'items-center',
-      'gap-4',
-      'line-through',
-      'w-full'
-    );
+    taskText.classList.add('flex', 'items-center', 'gap-4', 'line-through', 'w-full');
   }
 
   return taskCard;
 }
 
 async function showPendentTasks() {
-  const tasks = await getTasks();
+  const tasks = await getTasks(jwt);
 
   tasks.forEach(({ description, createdAt, completed, id }) => {
     if (!completed) {
-      const task = createTask(description, createdAt, completed, id);
+      const task = createTaskCard(description, createdAt, completed, id);
       pendentTasksContainer.appendChild(task);
     } else {
       const emptyMsg = document.createElement('span');
-      emptyMsg.innerText = 'Ainda não há nenhuma tarefa!';
+      emptyMsg.innerText = 'Sem tarefas por aqui!';
       pendentTasksContainer.appendChild(emptyMsg);
     }
   });
 }
 
-showPendentTasks();
-
 async function showCompletedTasks() {
-  const tasks = await getTasks();
+  const tasks = await getTasks(jwt);
 
   tasks.forEach(({ description, createdAt, completed, id }) => {
     if (completed) {
-      const task = createTask(description, createdAt, completed, id);
+      const task = createTaskCard(description, createdAt, completed, id);
       completedTasksContainer.appendChild(task);
     } else {
       const emptyMsg = document.createElement('span');
@@ -185,6 +124,9 @@ async function showCompletedTasks() {
   });
 }
 
-showCompletedTasks();
+window.onload = () => {
+    showPendentTasks();
+    showCompletedTasks();
+}
 
 const search = document.querySelector('#search');
