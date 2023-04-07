@@ -42,8 +42,7 @@ export async function getTasks(jwt) {
     };
     try {
       const response = await fetch(`${baseUrl}/tasks/${id}`, config);
-      const data = await response.json();
-      console.log(data);
+      return response.status;
     } catch (error) {
       console.log(error);
     }

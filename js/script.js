@@ -1,5 +1,5 @@
 const jwt = localStorage.getItem('jwt');
-import {getUser, getTasks} from './helpers.js';
+import {getUser, getTasks, deleteTask} from './helpers.js';
 
 async function userInfoShow() {
   const userResponse = await getUser(jwt);
@@ -40,11 +40,16 @@ timelineDate.innerText = date
   .toUpperCase()
   .replaceAll('.', '');
 
-const baseUrl = 'https://todo-api.ctd.academy/v1';
-
 const pendentTasksContainer = document.querySelector('#pendent-container');
 
 const completedTasksContainer = document.querySelector('#completed-container');
+
+async function removeTask(id, e) {
+    const deletedTask = await deleteTask(id, jwt)
+    if (deletedTask === 200) {
+        e.target.closest(`#div-${id}`).remove();
+    }
+}
 
 function newElement(tag, listClass = [], text = '') {
     const element = document.createElement(tag);
@@ -61,6 +66,7 @@ function newElement(tag, listClass = [], text = '') {
 
 function createTaskCard(description, createdAt, completed, id) {
   const taskCard = newElement('div', ['bg-base-200', 'sm:w-1/2', 'px-4', 'flex', 'rounded-md', 'justify-between'])
+  taskCard.id = `div-${id}`;
 
   const taskText = newElement('div');
 
@@ -75,7 +81,7 @@ function createTaskCard(description, createdAt, completed, id) {
   const taskInfo = newElement('div', ['flex', 'flex-col', 'h-ful', 'justify-between', 'items-end', 'w-1/4', 'pt-1'])
 
   const taskTrash = newElement('i', ['fi', 'fi-rr-trash', 'text-white', 'text-lg', 'cursor-pointer'])
-  taskTrash.addEventListener('click', () => deleteTask(id));
+  taskTrash.addEventListener('click', (e) => removeTask(id, e));
   taskInfo.appendChild(taskTrash);
 
   const dateAtTask = new Date(createdAt.slice(0, createdAt.indexOf('T')));
