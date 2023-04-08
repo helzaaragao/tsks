@@ -1,5 +1,5 @@
 const jwt = localStorage.getItem('jwt');
-import {getUser, getTasks, deleteTask} from './helpers.js';
+import {getUser, getTasks, deleteTask, postTask} from './helpers.js';
 
 function showContent() {
     const header = document.querySelector('header');
@@ -69,7 +69,7 @@ function newElement(tag, listClass = [], text = '') {
 }
 
 function createTaskCard(description, createdAt, completed, id) {
-  const taskCard = newElement('div', ['bg-base-200', 'sm:w-1/2', 'px-4', 'flex', 'rounded-md', 'justify-between'])
+  const taskCard = newElement('div', ['bg-base-200', 'md:w-1/2', 'px-4', 'flex', 'rounded-md', 'justify-between'])
   taskCard.id = `div-${id}`;
 
   const taskText = newElement('div');
@@ -150,6 +150,16 @@ async function showCompletedTasks() {
     }
   }  
 }
+
+async function createtask() {
+    const inputNewTask = document.querySelector('#new-task');
+    const { id, description, completed, createdAt } = await postTask(jwt, inputNewTask.value);
+    const createdTask = createTaskCard(description, createdAt, completed, id);
+    pendentTasksContainer.appendChild(createdTask);
+}
+
+const buttonAddTask = document.querySelector('#add-task');
+buttonAddTask.addEventListener('click', createtask);
 
 document.addEventListener('DOMContentLoaded', () => {
   if (jwt === null || jwt === undefined || jwt === '') {

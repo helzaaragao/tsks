@@ -19,7 +19,7 @@
     <header class="hidden bg-[#2B2A2E] flex w-screen h-24 gap-8 items-center px-8 sm:justify-between">
         <!-- menu hamburguer -->
         <label for="my-drawer-2"
-            class="btn btn-circle bg-transparent border-none swap swap-rotate btn-ghost drawer-button sm:hidden">
+            class="btn btn-circle bg-transparent border-none swap swap-rotate btn-ghost drawer-button lg:hidden">
 
             <!-- this hidden checkbox controls the state -->
             <input type="checkbox" aria-label="menu hamburguer" />
@@ -43,7 +43,7 @@
         </div>
         <nav class="h-full flex items-center gap-10 w-1/2 justify-end">
             <!-- search bar -->
-            <div class="hidden sm:flex items-center rounded-full bg-[#131317]/50 pr-2 w-full">
+            <div class="hidden md:flex items-center rounded-full bg-[#131317]/50 pr-2 w-full">
                 <input type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
                     class="rounded-lg pl-4 bg-transparent outline-0 text-white w-full border-none focus:ring-transparent">
                 <button id="search" type="button" aria-label="Botão de pesquisa" class="w-10 h-10">
@@ -196,7 +196,7 @@
                 <section id="tasks-container" class="pt-2 flex flex-col items-center w-full gap-8 drawer-content h-ful">
                     <h3 id="date" class="w-full pl-4 font-medium">01 de abr - Sab</h3>
                     <!-- mobile search bar -->
-                    <div class="sm:hidden flex items-center rounded-full bg-[#333333]/50 pr-2 w-2/3">
+                    <div class="md:hidden flex items-center rounded-full bg-[#333333]/50 pr-2 w-2/3">
                         <input type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
                             class="rounded-lg pl-4 bg-transparent outline-0 text-white w-full border-none focus:ring-transparent">
                         <button type="button" aria-label="Botão de pesquisa" class="w-10 h-10">
@@ -285,7 +285,7 @@
                 <input id="new-task" type="text" placeholder="Digite sua tarefa"
                     class="w-full mt-1 h-10 px-2 bg-transparent border-[#d9d9d9] border rounded-lg">
                 <div class="modal-action">
-                    <label for="my-modal" class="btn btn-sm btn-secondary">Salvar</label>
+                    <label id="add-task" for="my-modal" class="btn btn-sm btn-secondary">Salvar</label>
                 </div>
             </div>
         </div>
