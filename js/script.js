@@ -153,9 +153,15 @@ async function showCompletedTasks() {
 
 async function createtask() {
     const inputNewTask = document.querySelector('#new-task');
-    const { id, description, completed, createdAt } = await postTask(jwt, inputNewTask.value);
-    const createdTask = createTaskCard(description, createdAt, completed, id);
-    pendentTasksContainer.appendChild(createdTask);
+    if (inputNewTask.value.length > 0) {
+      const { id, description, completed, createdAt } = await postTask(jwt, inputNewTask.value);
+      const createdTask = createTaskCard(description, createdAt, completed, id);
+      pendentTasksContainer.appendChild(createdTask);
+      inputNewTask.value = '';
+    } else {
+
+    }
+    
 }
 
 const buttonAddTask = document.querySelector('#add-task');
