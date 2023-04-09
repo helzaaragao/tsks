@@ -65,3 +65,21 @@ export async function getTasks(jwt) {
       console.log(error);
     }
   }
+
+  export async function updateTask(jwt, body, id) {
+    const config = {
+      method: 'PUT',
+      body: JSON.stringify(body),
+      headers: {
+        authorization: jwt,
+        'Content-type': 'application/json',
+      },
+    };
+    try {
+      const response = await fetch(`${baseUrl}/tasks/${id}`, config);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
