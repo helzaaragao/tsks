@@ -3,6 +3,7 @@ let senhaLogin = document.getElementById("password");
 let botaoLogin = document.getElementById("login"); 
 let formLogin = document.getElementById("form");
 let mostrarSenha = document.getElementById("show-password-checkbox");
+let mostrarSenhaIcone = document.getElementById("password-show");
 let lembrarLogin = document.getElementById("checkbox-remember"); 
 
 let loginUsuario = { 
@@ -32,7 +33,7 @@ function valideForm(){
     if (emailValida === "" || !validEmail(emailValida)) { 
         botaoLogin.disabled = true; 
         ///span ativo class remove  span.innerText + remove  SEPARAR O MEIAL E SENHA  senha  < 8 
-    } else if (senhaValida === "") { 
+    } else if (senhaValida === "" || senhaValida.length < 8) { 
         botaoLogin.disabled = true;
         //span desativo class list add 
     } else{ 
@@ -42,35 +43,45 @@ function valideForm(){
 
 mostrarSenha.addEventListener("change",() => { 
     if (mostrarSenha.checked){ 
-        senhaLogin.type = "text"; 
+        senhaLogin.type = "text";
+        //remove uma classe do icone e adiciona outra, assim a imagem é alterada
+        mostrarSenhaIcone.classList.remove('fi-rr-eye-crossed');
+        mostrarSenhaIcone.classList.add('fi-rr-eye');
     } else { 
-        senhaLogin.type = "password"
+        senhaLogin.type = "password";
+        mostrarSenhaIcone.classList.remove('fi-rr-eye');
+        mostrarSenhaIcone.classList.add('fi-rr-eye-crossed');
     }
 })
 
 
-async function fazerLogin(){ 
-    const loginUsuarioJson = JSON.stringify(loginUsuario); 
-    const configuracoesRequisicao = { 
-        method: 'POST', 
-        body: loginUsuarioJson, 
-        headers:{ 
-            'Content-type': 'application/json'
-        },
+async function fazerLogin() {
+  const loginUsuarioJson = JSON.stringify(loginUsuario);
+  const configuracoesRequisicao = {
+    method: 'POST',
+    body: loginUsuarioJson,
+    headers: {
+      'Content-type': 'application/json',
+    },
+  };
+  const resposta = await fetch(
+    'https://todo-api.ctd.academy/v1/users/login',
+    configuracoesRequisicao
+  );
+  let chaveJwt = await resposta.json();
+  if (chaveJwt.jwt) {
+    //a lógica tava certa so que estava sendo passado chaveJwt ao invés de chaveJwt.jwt para o localStorage e sessionStorage
+    if (lembrarLogin.checked) {
+      localStorage.setItem('chaveJwt', chaveJwt.jwt);
+    } else {
+      sessionStorage.setItem('chaveJwt', chaveJwt.jwt);
     }
-    const resposta = await fetch("https://todo-api.ctd.academy/v1/users/login", configuracoesRequisicao)
-    let chaveJwt = await resposta.json(); 
-     if(chaveJwt.jwt){ //ver isso aqui 
-        if(lembrarLogin.checked){ 
-          localStorage.setItem("chaveJwt", chaveJwt);
-        } else{ 
-            sessionStorage.setItem("chaveJwt", chaveJwt);
-        }  
-     window.location.href = "./index.html";
-     } else { 
-       alert("Usuário ou senha inválido")
-    }
+    window.location.href = './index.html';
+  } else {
+    alert('Usuário ou senha inválido');
+  }
 }
+
 
 botaoLogin.addEventListener("click", fazerLogin);
 
