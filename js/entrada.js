@@ -3,6 +3,7 @@ let senhaLogin = document.getElementById("password");
 let botaoLogin = document.getElementById("login"); 
 let formLogin = document.getElementById("form");
 let mostrarSenha = document.getElementById("show-password-checkbox");
+let mostrarSenhaIcone = document.getElementById("password-show");
 let lembrarLogin = document.getElementById("checkbox-remember"); 
 let spanEmail = document.getElementById("span-email");
 let spanSenha = document.getElementById("span-senha");
@@ -39,11 +40,8 @@ function valideForm(){
         spanEmail.classList.remove("hidden"); 
         spanEmail.innerHTML = "Email inválido"
         botaoLogin.disabled = true; 
-        botaoLogin.style.backgroundColor = "#CCCCCC";
-        botaoLogin.style.color = "#000000";
-    } else if (senhaValida === "" || senhaValida.length < 8) { 
-        spanSenha.classList.remove("hidden");
-        spanSenha.innerHTML = "Senha inválida"
+        ///span ativo class remove  span.innerText + remove  SEPARAR O MEIAL E SENHA  senha  < 8 
+    } else if (senhaValida === "") { 
         botaoLogin.disabled = true;
         botaoLogin.style.backgroundColor = "#CCCCCC";
         botaoLogin.style.color = "#000000";
@@ -61,41 +59,45 @@ function valideForm(){
 
 mostrarSenha.addEventListener("change",() => { 
     if (mostrarSenha.checked){ 
-        senhaLogin.type = "text"; 
+        senhaLogin.type = "text";
+        //remove uma classe do icone e adiciona outra, assim a imagem é alterada
+        mostrarSenhaIcone.classList.remove('fi-rr-eye-crossed');
+        mostrarSenhaIcone.classList.add('fi-rr-eye');
     } else { 
-        senhaLogin.type = "password"
+        senhaLogin.type = "password";
+        mostrarSenhaIcone.classList.remove('fi-rr-eye');
+        mostrarSenhaIcone.classList.add('fi-rr-eye-crossed');
     }
 })
 
 
-async function fazerLogin(){ 
-    const loginUsuarioJson = JSON.stringify(loginUsuario); 
-    const configuracoesRequisicao = { 
-        method: 'POST', 
-        body: loginUsuarioJson, 
-        headers:{ 
-            'Content-type': 'application/json'
-        },
+async function fazerLogin() {
+  const loginUsuarioJson = JSON.stringify(loginUsuario);
+  const configuracoesRequisicao = {
+    method: 'POST',
+    body: loginUsuarioJson,
+    headers: {
+      'Content-type': 'application/json',
+    },
+  };
+  const resposta = await fetch(
+    'https://todo-api.ctd.academy/v1/users/login',
+    configuracoesRequisicao
+  );
+  let chaveJwt = await resposta.json();
+  if (chaveJwt.jwt) {
+    //a lógica tava certa so que estava sendo passado chaveJwt ao invés de chaveJwt.jwt para o localStorage e sessionStorage
+    if (lembrarLogin.checked) {
+      localStorage.setItem('chaveJwt', chaveJwt.jwt);
+    } else {
+      sessionStorage.setItem('chaveJwt', chaveJwt.jwt);
     }
-    const resposta = await fetch("https://todo-api.ctd.academy/v1/users/login", configuracoesRequisicao)
-    let chaveJwt = await resposta.json(); 
-     if(chaveJwt.jwt){ 
-        
-        //Isso parece não ta salvando o usuário do jeito que a gente precisa, tem alguma configuração faltando ou preciso adicionar mais coisa para ficar com o usuário aparecendo na tela de login salvo e somente o usuario clica para avançar | Eu adicionei o .jwt só para fazer graça e ver se ia 
-        if(lembrarLogin.checked){ 
-          localStorage.setItem("chaveJwt", chaveJwt.jwt);
-        } else{ 
-            sessionStorage.setItem("chaveJwt", chaveJwt.jwt);
-        }  
-        // setTimeout(() => { 
-        //     loading.classList.remove('hidden');
-        //     console.log('Acabou o tempo')
-        //     }, 3000); //ainda em testes
-        window.location.href = "./index.html";
-     } else { 
-       alert("Usuário ou senha inválido")
-    }
+    window.location.href = './index.html';
+  } else {
+    alert('Usuário ou senha inválido');
+  }
 }
+
 
 botaoLogin.addEventListener("click", fazerLogin);
 

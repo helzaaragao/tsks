@@ -5,41 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <script defer src="./js/entrada.js"></script>
     <title>Entrada</title>
 </head>
-<body class="bg-[#131317] text-[#FFFFFF] sm:flex sm:justify-center sm:items-center sm:w-full mt-20">
-    <header class="mb-10 sm:mb-0">
-        <picture class="flex justify-center items-center w-screen sm:w-full sm:flex-col sm:mr-40">
-            <img class="w-36 sm:w-[13rem]" src="./assets/logo.png" alt="">
-            <img class="w-28 sm:w-36"src="./assets/tsks.png" alt="">
-        </picture>
-        <text class="text-center text-lg sm:p-6 sm:text-2xl">
-            <h3>Organize sua vida</h3>
-        </text>
-    </header>
-
-    <form class="flex flex-col p-4 leading-10 w-46" id="form">
-        <h1 class="text-center text-3xl font-semibold mb-5">Login</h1>
-        <label for="email" class="text-[1.5rem] sm:text-[1.2rem]">Email</label>
-        <input type="email"name="email" id="email" placeholder="Digite seu email" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6 sm:w-[24rem]">
-        <span class="text-[#C7379C] h-6 hidden" id="span-email" ></span>
-        <label for="password" class="text-[1.5rem] sm:text-[1.2rem]">Senha</label>
-        <input type="password" name="password" id="password" placeholder="Digite sua senha" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6 sm:w-[24rem]">
-        <span class="text-[#C7379C] h-6 hidden" id="span-senha"></span>
-        <div class="mt-6 flex w-full">
-            <div>
-                <input type="checkbox" name="checkbox" id="checkbox-remember" class="w-10 h-6 ">
-                <label for="remember" class="text-[1.2rem] sm:text-[1rem]">Lembrar-me</label>
+<body class="bg-[#131317]">
+    <main class="text-[#FFFFFF] flex flex-col sm:flex-row justify-center items-center w-screen min-h-screen">
+        <section class="mb-10 sm:mb-0">
+            <picture class="flex justify-center items-center w-screen sm:w-full sm:flex-col sm:mr-40">
+                <img class="w-36 sm:w-[13rem]" src="./assets/logo.png" alt="">
+                <img class="w-28 sm:w-36"src="./assets/tsks.png" alt="">
+            </picture>
+            <text class="text-center text-lg sm:p-6 sm:text-2xl">
+                <h3>Organize sua vida</h3>
+            </text>
+        </section>
+    
+        <form class="flex flex-col p-4 leading-10 w-46" id="form">
+            <h1 class="text-center text-3xl font-semibold mb-5">Login</h1>
+            <label for="email" class="text-[1.5rem] sm:text-[1.2rem]">Email</label>
+            <input type="email"name="email" id="email" placeholder="Digite seu email" class="focus:ring-0 focus:border-[#C7379C] h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-4 sm:w-[24rem]">
+            <label for="password" class="text-[1.5rem] sm:text-[1.2rem]">Senha</label>
+            <!-- adiciona input para mostrar a senha alinhado ao input de senha -->
+            <div class="flex rounded-2xl border-2 border-[#C7379C] items-center justify-between pr-4 pl-1">
+                <input type="password" name="password" id="password" placeholder="Digite sua senha" class="rounded-2xl h-12 bg-[#131317] border-0 focus:ring-0 sm:w-[20rem]">
+                <div>
+                    <input type="checkbox" id="show-password-checkbox" class="hidden">
+                    <label for="show-password-checkbox" aria-label="Mostrar senha" class="cursor-pointer">
+                        <i id="password-show" class="fi fi-rr-eye-crossed text-gray-500 flex items-center"></i>
+                    </label>
+                </div>
             </div>
-            <div>
-                <input type="checkbox" id="show-password-checkbox" class="w-10 h-6 ">
-                <label for="text" class="text-[1.2rem] sm:text-[1rem]">Mostrar senha</label>
+            <div class="flex items-center gap-2 mt-4">
+                <input type="checkbox" name="checkbox" id="checkbox-remember" class="w-5 h-5 border-2 rounded bg-[#131317] border-[#C7379C] text-[#C7379C] focus:ring-0">
+                <label for="checkbox-remember" class="text-[1.2rem] sm:text-[1rem]">Lembrar-me</label>
             </div>
-        </div>
-        <button type="button" disabled class="bg-[#C7379C] rounded-2xl text-2xl h-12 text-center mt-6" id="login">Entrar</button>
-        <p class="mt-4 text-center">Ainda não tem conta? <a href="./cadastro.html"class="text-[#C7379C]">Cadastre-se</a></p> 
-        <!-- <button class="btn loading hidden" id="btn">loading</button>  -->
-    </form>
+            <button type="button" disabled class="bg-[#C7379C] rounded-2xl text-2xl h-12 text-center mt-6 disabled:opacity-70" id="login">Entrar</button>
+            <p class="mt-4 text-center">Ainda não tem conta? <a href="./cadastro.html"class="text-[#C7379C]">Cadastre-se</a></p>  
+        </form>
+    </main>
 </body>
 </html>
