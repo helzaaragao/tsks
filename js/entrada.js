@@ -4,6 +4,9 @@ let botaoLogin = document.getElementById("login");
 let formLogin = document.getElementById("form");
 let mostrarSenha = document.getElementById("show-password-checkbox");
 let lembrarLogin = document.getElementById("checkbox-remember"); 
+let spanEmail = document.getElementById("span-email");
+let spanSenha = document.getElementById("span-senha");
+let loading = document.getElementById("btn")
 
 let loginUsuario = { 
     "email": emailLogin.value,
@@ -20,6 +23,8 @@ senhaLogin.addEventListener("input", () => {
     valideForm();
 });
 
+
+
 function validEmail(email){ 
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
@@ -30,14 +35,28 @@ function valideForm(){
     const senhaValida = senhaLogin.value.trim(); 
 
     if (emailValida === "" || !validEmail(emailValida)) { 
+        //a lógica não está validando os dois mas quando termino de colocr o email ele ainda deixa como se tivesse invalido ( apenas digitando, se pegar pronto do search ele aceita de boas) e  a senha também antes mesmo de eu clicar nela| Já tentei o if else para cada um e o problema se volta para o botão de login que aciona apenas colocando a senha ( seguindo a ordem que eu coloquei) | Eu só não sei que logica usar para que tudo saia como planejado sabe?
+        spanEmail.classList.remove("hidden"); 
+        spanEmail.innerHTML = "Email inválido"
         botaoLogin.disabled = true; 
-        ///span ativo class remove  span.innerText + remove  SEPARAR O MEIAL E SENHA  senha  < 8 
-    } else if (senhaValida === "") { 
+        botaoLogin.style.backgroundColor = "#CCCCCC";
+        botaoLogin.style.color = "#000000";
+    } else if (senhaValida === "" || senhaValida.length < 8) { 
+        spanSenha.classList.remove("hidden");
+        spanSenha.innerHTML = "Senha inválida"
         botaoLogin.disabled = true;
-        //span desativo class list add 
-    } else{ 
-        botaoLogin.disabled = false; // else false no fim
+        botaoLogin.style.backgroundColor = "#CCCCCC";
+        botaoLogin.style.color = "#000000";
+    }else { 
+        spanEmail.classList.add("hidden");
+        spanSenha.classList.add("hidden"); 
+        botaoLogin.disabled = false;
+        botaoLogin.style.backgroundColor = "#C7379C";
+        botaoLogin.style.color = "#FFFFFF";
     }
+    
+   
+    
 }
 
 mostrarSenha.addEventListener("change",() => { 
@@ -60,13 +79,19 @@ async function fazerLogin(){
     }
     const resposta = await fetch("https://todo-api.ctd.academy/v1/users/login", configuracoesRequisicao)
     let chaveJwt = await resposta.json(); 
-     if(chaveJwt.jwt){ //ver isso aqui 
+     if(chaveJwt.jwt){ 
+        
+        //Isso parece não ta salvando o usuário do jeito que a gente precisa, tem alguma configuração faltando ou preciso adicionar mais coisa para ficar com o usuário aparecendo na tela de login salvo e somente o usuario clica para avançar | Eu adicionei o .jwt só para fazer graça e ver se ia 
         if(lembrarLogin.checked){ 
-          localStorage.setItem("chaveJwt", chaveJwt);
+          localStorage.setItem("chaveJwt", chaveJwt.jwt);
         } else{ 
-            sessionStorage.setItem("chaveJwt", chaveJwt);
+            sessionStorage.setItem("chaveJwt", chaveJwt.jwt);
         }  
-     window.location.href = "./index.html";
+        // setTimeout(() => { 
+        //     loading.classList.remove('hidden');
+        //     console.log('Acabou o tempo')
+        //     }, 3000); //ainda em testes
+        window.location.href = "./index.html";
      } else { 
        alert("Usuário ou senha inválido")
     }
@@ -74,16 +99,11 @@ async function fazerLogin(){
 
 botaoLogin.addEventListener("click", fazerLogin);
 
- /* Campos de Nome e Sobrenome não devem estar vazios e o campo de email deve conter um email válido para que o formulário não apresente erros 
- Fazer validação do lembra-me do usuário. Se marcado, o token do usuário deve ser salvo no local storage, se não o token deve ser salvo no session storage.
- Um ícone de Loading enquanto ocorre o processo de login e de cadastro do usuário.
-
- Exibi a senha + Lembrar o login na próxima vez, aqueles que não foram lembrados é pra colocar na session
-
-   class disabled: oppacite  no html
-   hidden no span, colocar as classes no span , javascript hidden
-   https://daisyui.com/components/button/ 
-   setTimeout(() => {
+ /*
+  FALTA FAZER: 
+    Um ícone de Loading enquanto ocorre o processo de login e de cadastro do usuário.
+    https://daisyui.com/components/button/ 
+    setTimeout(() => {
         console.log('Acabou o tempo')}, 3000);
         setTimeout(() => {
             console.log('Acabou o tempo')}, 3000);
