@@ -1,5 +1,5 @@
 const jwt = localStorage.getItem('jwt');
-import {getUser, getTasks, deleteTask, postTask} from './helpers.js';
+import {getUser, getTasks, deleteTask, postTask, updateTask} from './helpers.js';
 
 function showContent() {
     const header = document.querySelector('header');
@@ -55,6 +55,20 @@ async function removeTask(id, e) {
     }
 }
 
+async function changeStatus(taskId, e) {
+    const status = e.target.checked;
+    const { id, description, completed, createdAt } = await updateTask(jwt, {completed: status}, taskId);
+    if (status) {
+        e.target.closest(`#div-${id}`).remove();
+        const completedTask = createTaskCard(description, createdAt, completed, id);
+        completedTasksContainer.appendChild(completedTask);
+    } else {
+        e.target.closest(`#div-${id}`).remove();
+        const pendentTask = createTaskCard(description, createdAt, completed, id);
+        pendentTasksContainer.appendChild(pendentTask);
+    }
+}
+
 function newElement(tag, listClass = [], text = '') {
     const element = document.createElement(tag);
     if (listClass.length > 0) {
@@ -69,24 +83,33 @@ function newElement(tag, listClass = [], text = '') {
 }
 
 function createTaskCard(description, createdAt, completed, id) {
-  const taskCard = newElement('div', ['bg-base-200', 'md:w-1/2', 'px-4', 'flex', 'rounded-md', 'justify-between'])
+  const taskCard = newElement('div', ['bg-base-200', 'md:w-1/2', 'px-4', 'flex', 'rounded-md', 'justify-between']);
   taskCard.id = `div-${id}`;
 
   const taskText = newElement('div');
 
-  const checkboxTask = newElement('input', ['checkbox', 'checkbox-secondary', 'rounded-full'])
+  const checkboxTask = newElement('input', ['checkbox', 'checkbox-secondary', 'rounded-full']);
   checkboxTask.type = 'checkbox';
   checkboxTask.checked = completed;
+  checkboxTask.addEventListener('change', (e) => changeStatus(id, e));
   taskText.appendChild(checkboxTask);
 
-  const labelTask = newElement('label', [], description) 
+  const labelTask = newElement('label', [], description); 
   taskText.appendChild(labelTask);
 
-  const taskInfo = newElement('div', ['flex', 'flex-col', 'h-ful', 'justify-between', 'items-end', 'w-1/4', 'pt-1'])
+  const taskInfo = newElement('div', ['flex', 'flex-col', 'h-16', 'justify-between', 'items-end', 'w-1/4', 'pt-1']);
 
-  const taskTrash = newElement('i', ['fi', 'fi-rr-trash', 'text-white', 'text-lg', 'cursor-pointer'])
+  const taskIcons = newElement('div', ['flex', 'gap-2', 'justify-end', 'w-full']);
+
+  const taskEdit = newElement('i', ['fi', 'fi-rr-edit', 'text-lg', 'hover:text-white', 'cursor-pointer']);
+  taskEdit.addEventListener('click', (e) => console.log(e.target));
+  taskIcons.appendChild(taskEdit);
+  
+
+  const taskTrash = newElement('i', ['fi', 'fi-rr-trash', 'text-lg', 'hover:text-white', 'cursor-pointer']);
   taskTrash.addEventListener('click', (e) => removeTask(id, e));
-  taskInfo.appendChild(taskTrash);
+  taskIcons.appendChild(taskTrash);
+  taskInfo.appendChild(taskIcons);
 
   const dateAtTask = new Date(createdAt.slice(0, createdAt.indexOf('T')));
   const taskDate = newElement('span', ['text-sm'], dateAtTask.toLocaleDateString('pt-BR'));
@@ -109,20 +132,14 @@ async function showPendentTasks() {
   if (tasks !== 'invalid token') {
     const pendentSkelleton = document.querySelector('#task-loading-pendent');
     pendentSkelleton.classList.add('hidden');
-    const emptyMsg = newElement('span', ['ml-4'], 'Sem tarefas por aqui!');
 
     if (tasks.length > 0) {
         tasks.forEach(({ description, createdAt, completed, id }) => {
             if (!completed) {
             const task = createTaskCard(description, createdAt, completed, id);
             pendentTasksContainer.appendChild(task);
-            emptyMsg.classList.add('hidden')
-            } else {
-            pendentTasksContainer.appendChild(emptyMsg);
             }
         });
-    } else {
-        pendentTasksContainer.appendChild(emptyMsg);
     }
   }
 }
@@ -133,20 +150,14 @@ async function showCompletedTasks() {
   if (tasks !== 'invalid token') {
     const completedSkelleton = document.querySelector('#task-loading-completed');
     completedSkelleton.classList.add('hidden');
-    const completedEmptyMsg = newElement('span', ['ml-4'], 'Sem tarefas por aqui!');
     
     if (tasks.length > 0) {
         tasks.forEach(({ description, createdAt, completed, id }) => {
             if (completed) {
             const task = createTaskCard(description, createdAt, completed, id);
             completedTasksContainer.appendChild(task);
-            completedEmptyMsg.classList.add('hidden');
-            } else {
-            completedTasksContainer.appendChild(completedEmptyMsg);
             }
         });
-    } else {
-        completedTasksContainer.appendChild(completedEmptyMsg);
     }
   }  
 }
