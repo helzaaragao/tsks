@@ -16,12 +16,12 @@ let loginUsuario = {
 
 emailLogin.addEventListener("input", () => {
     loginUsuario.email = emailLogin.value
-    valideEmailForm()
+    valideForm();
 });
 
 senhaLogin.addEventListener("input", () => {
     loginUsuario.password = senhaLogin.value
-    valideSenhaForm()
+    valideForm();
 });
 
 
@@ -31,41 +31,12 @@ function validEmail(email){
     return re.test(email);
 }
 
-function valideEmailForm(){ 
-  const emailValida = emailLogin.value.trim();
-  if (emailValida === "" || !validEmail(emailValida)) { 
-    spanEmail.classList.remove("hidden"); 
-    spanEmail.innerHTML = "Email inválido"
-    botaoLogin.disabled = true; 
-    botaoLogin.style.backgroundColor = "#CCCCCC";
-    botaoLogin.style.color = "#000000";
-} else { 
-  spanEmail.classList.add("hidden");
-  botaoLogin.disabled = false; 
-}
-}
-
-function valideSenhaForm(){ 
-  const senhaValida = senhaLogin.value.trim(); 
-  if (senhaValida === "" || senhaValida.length < 8) { 
-    botaoLogin.disabled = true;
-    spanSenha.innerHTML = "Senha inválido"
-    botaoLogin.style.backgroundColor = "#CCCCCC";
-    botaoLogin.style.color = "#000000";
-}else { 
-    spanSenha.classList.add("hidden"); 
-    botaoLogin.style.backgroundColor = "#C7379C";
-    botaoLogin.style.color = "#FFFFFF";
-    botaoLogin.disabled = false;
-}
-}
 
 function valideForm(){ 
     const emailValida = emailLogin.value.trim(); 
     const senhaValida = senhaLogin.value.trim(); 
 
-    if (emailValida === "" || !validEmail(emailValida)) { 
-        //a lógica não está validando os dois mas quando termino de colocr o email ele ainda deixa como se tivesse invalido ( apenas digitando, se pegar pronto do search ele aceita de boas) e  a senha também antes mesmo de eu clicar nela| Já tentei o if else para cada um e o problema se volta para o botão de login que aciona apenas colocando a senha ( seguindo a ordem que eu coloquei) | Eu só não sei que logica usar para que tudo saia como planejado sabe?
+    if (emailValida === "" && !validEmail(emailValida)) { 
         spanEmail.classList.remove("hidden"); 
         spanEmail.innerHTML = "Email inválido"
         botaoLogin.disabled = true; 
@@ -75,7 +46,8 @@ function valideForm(){
       spanEmail.classList.add("hidden");
     }
 
-    if (senhaValida === "" || senhaValida.length < 8) { 
+    if (senhaValida === "" && senhaValida.length < 8) { 
+      spanSenha.classList.remove("hidden"); 
         botaoLogin.disabled = true;
         spanSenha.innerHTML = "Senha inválido"
         botaoLogin.style.backgroundColor = "#CCCCCC";
@@ -117,7 +89,6 @@ async function fazerLogin() {
     configuracoesRequisicao);
   let chaveJwt = await resposta.json();
   if (chaveJwt.jwt) {
-    //a lógica tava certa so que estava sendo passado chaveJwt ao invés de chaveJwt.jwt para o localStorage e sessionStorage
     if (lembrarLogin.checked) {
       localStorage.setItem('chaveJwt', chaveJwt.jwt);
     } else {
