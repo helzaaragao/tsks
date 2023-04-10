@@ -7,7 +7,7 @@ let mostrarSenhaIcone = document.getElementById("password-show");
 let lembrarLogin = document.getElementById("checkbox-remember"); 
 let spanEmail = document.getElementById("span-email");
 let spanSenha = document.getElementById("span-senha");
-let loading = document.getElementById("btn")
+// let loading = document.getElementById("btn")
 
 let loginUsuario = { 
     "email": emailLogin.value,
@@ -16,12 +16,12 @@ let loginUsuario = {
 
 emailLogin.addEventListener("input", () => {
     loginUsuario.email = emailLogin.value
-    valideForm();
+    valideEmailForm()
 });
 
 senhaLogin.addEventListener("input", () => {
     loginUsuario.password = senhaLogin.value
-    valideForm();
+    valideSenhaForm()
 });
 
 
@@ -29,6 +29,35 @@ senhaLogin.addEventListener("input", () => {
 function validEmail(email){ 
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
+}
+
+function valideEmailForm(){ 
+  const emailValida = emailLogin.value.trim();
+  if (emailValida === "" || !validEmail(emailValida)) { 
+    spanEmail.classList.remove("hidden"); 
+    spanEmail.innerHTML = "Email inválido"
+    botaoLogin.disabled = true; 
+    botaoLogin.style.backgroundColor = "#CCCCCC";
+    botaoLogin.style.color = "#000000";
+} else { 
+  spanEmail.classList.add("hidden");
+  botaoLogin.disabled = false; 
+}
+}
+
+function valideSenhaForm(){ 
+  const senhaValida = senhaLogin.value.trim(); 
+  if (senhaValida === "" || senhaValida.length < 8) { 
+    botaoLogin.disabled = true;
+    spanSenha.innerHTML = "Senha inválido"
+    botaoLogin.style.backgroundColor = "#CCCCCC";
+    botaoLogin.style.color = "#000000";
+}else { 
+    spanSenha.classList.add("hidden"); 
+    botaoLogin.style.backgroundColor = "#C7379C";
+    botaoLogin.style.color = "#FFFFFF";
+    botaoLogin.disabled = false;
+}
 }
 
 function valideForm(){ 
@@ -40,13 +69,18 @@ function valideForm(){
         spanEmail.classList.remove("hidden"); 
         spanEmail.innerHTML = "Email inválido"
         botaoLogin.disabled = true; 
-        ///span ativo class remove  span.innerText + remove  SEPARAR O MEIAL E SENHA  senha  < 8 
-    } else if (senhaValida === "") { 
+        botaoLogin.style.backgroundColor = "#CCCCCC";
+        botaoLogin.style.color = "#000000";
+    } else { 
+      spanEmail.classList.add("hidden");
+    }
+
+    if (senhaValida === "" || senhaValida.length < 8) { 
         botaoLogin.disabled = true;
+        spanSenha.innerHTML = "Senha inválido"
         botaoLogin.style.backgroundColor = "#CCCCCC";
         botaoLogin.style.color = "#000000";
     }else { 
-        spanEmail.classList.add("hidden");
         spanSenha.classList.add("hidden"); 
         botaoLogin.disabled = false;
         botaoLogin.style.backgroundColor = "#C7379C";
@@ -60,7 +94,6 @@ function valideForm(){
 mostrarSenha.addEventListener("change",() => { 
     if (mostrarSenha.checked){ 
         senhaLogin.type = "text";
-        //remove uma classe do icone e adiciona outra, assim a imagem é alterada
         mostrarSenhaIcone.classList.remove('fi-rr-eye-crossed');
         mostrarSenhaIcone.classList.add('fi-rr-eye');
     } else { 
@@ -80,10 +113,8 @@ async function fazerLogin() {
       'Content-type': 'application/json',
     },
   };
-  const resposta = await fetch(
-    'https://todo-api.ctd.academy/v1/users/login',
-    configuracoesRequisicao
-  );
+  const resposta = await fetch('https://todo-api.ctd.academy/v1/users/login',
+    configuracoesRequisicao);
   let chaveJwt = await resposta.json();
   if (chaveJwt.jwt) {
     //a lógica tava certa so que estava sendo passado chaveJwt ao invés de chaveJwt.jwt para o localStorage e sessionStorage
@@ -102,8 +133,10 @@ async function fazerLogin() {
 botaoLogin.addEventListener("click", fazerLogin);
 
  /*
-  FALTA FAZER: 
-    Um ícone de Loading enquanto ocorre o processo de login e de cadastro do usuário.
+  FALTA FAZER:
+    Validação com o span mostrando ( ainda existe um bug)
+    Verificar o salvar senha + mostrar senha
+    Vai existir? Um ícone de Loading enquanto ocorre o processo de login e de cadastro do usuário.
     https://daisyui.com/components/button/ 
     setTimeout(() => {
         console.log('Acabou o tempo')}, 3000);
