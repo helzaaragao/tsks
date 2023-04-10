@@ -1,5 +1,6 @@
 const jwt = localStorage.getItem('jwt');
 import {getUser, getTasks, deleteTask, postTask, updateTask} from './helpers.js';
+let tasksList = [];
 
 function showContent() {
     const header = document.querySelector('header');
@@ -24,7 +25,7 @@ async function userInfoShow() {
     userName.innerText = `${userResponse.firstName} ${userResponse.lastName}`;
     userEmail.innerText = userResponse.email;
     profileButton.innerText = `${userResponse.firstName.slice(0, 1)}${userResponse.lastName.slice(0, 1)}`;
-    showContent();
+    showContent();    
   }
 }
 
@@ -111,7 +112,7 @@ function createTaskCard(description, createdAt, completed, id) {
   taskIcons.appendChild(taskTrash);
   taskInfo.appendChild(taskIcons);
 
-  const dateAtTask = new Date(createdAt.slice(0, createdAt.indexOf('T')));
+  const dateAtTask = new Date(createdAt);
   const taskDate = newElement('span', ['text-sm'], dateAtTask.toLocaleDateString('pt-BR'));
   taskInfo.appendChild(taskDate);
   
@@ -128,13 +129,12 @@ function createTaskCard(description, createdAt, completed, id) {
 }
 
 async function showPendentTasks() {
-  const tasks = await getTasks(jwt);
-  if (tasks !== 'invalid token') {
+  if (tasksList !== 'invalid token') {
     const pendentSkelleton = document.querySelector('#task-loading-pendent');
     pendentSkelleton.classList.add('hidden');
 
-    if (tasks.length > 0) {
-        tasks.forEach(({ description, createdAt, completed, id }) => {
+    if (tasksList.length > 0) {
+        tasksList.forEach(({ description, createdAt, completed, id }) => {
             if (!completed) {
             const task = createTaskCard(description, createdAt, completed, id);
             pendentTasksContainer.appendChild(task);
@@ -145,14 +145,12 @@ async function showPendentTasks() {
 }
 
 async function showCompletedTasks() {
-  const tasks = await getTasks(jwt);
-
-  if (tasks !== 'invalid token') {
+  if (tasksList !== 'invalid token') {
     const completedSkelleton = document.querySelector('#task-loading-completed');
     completedSkelleton.classList.add('hidden');
     
-    if (tasks.length > 0) {
-        tasks.forEach(({ description, createdAt, completed, id }) => {
+    if (tasksList.length > 0) {
+        tasksList.forEach(({ description, createdAt, completed, id }) => {
             if (completed) {
             const task = createTaskCard(description, createdAt, completed, id);
             completedTasksContainer.appendChild(task);
@@ -175,14 +173,52 @@ async function createtask() {
     
 }
 
+function tasksFilter(filteredList) {
+  if (filteredList.length > 0) {
+    pendentTasksContainer.innerHTML= '';
+    pendentTasksContainer.appendChild(newElement('h2', ['w-full', 'text-white', 'text-2xl'], 'Tarefas Pendentes'));
+    completedTasksContainer.innerHTML= '';
+    completedTasksContainer.appendChild(newElement('h2', ['w-full', 'text-white', 'text-2xl'], 'Tarefas Completas'));
+    filteredList.forEach(({ description, createdAt, completed, id }) => {
+      if (!completed) {
+        const task = createTaskCard(description, createdAt, completed, id);
+        pendentTasksContainer.appendChild(task);
+      } else {
+        const task = createTaskCard(description, createdAt, completed, id);
+        completedTasksContainer.appendChild(task);
+      }
+    });
+  }
+}
+
+function todayFilter() {
+  const today = new Date();
+  const filteredList = tasksList.filter(({ createdAt }) => Date.parse((new Date(createdAt)).toLocaleDateString('pt-BR')) === Date.parse(today.toLocaleDateString('pt-BR')));
+  tasksFilter(filteredList);
+}
+
+function yesterdayFilter() {
+  const today = new Date();
+  const yesterday = new Date(today.setHours(-1));
+  const filteredList = tasksList.filter(({ createdAt }) => Date.parse((new Date(createdAt)).toLocaleDateString('pt-BR')) === Date.parse(yesterday.toLocaleDateString('pt-BR')));
+  tasksFilter(filteredList);
+}
+
+const todayMenuItem = document.querySelector('#today');
+todayMenuItem.addEventListener('click', todayFilter);
+
+const yesterdayMenuItem = document.querySelector('#yesterday');
+yesterdayMenuItem.addEventListener('click', yesterdayFilter);
+
 const buttonAddTask = document.querySelector('#add-task');
 buttonAddTask.addEventListener('click', createtask);
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   if (jwt === null || jwt === undefined || jwt === '') {
     window.location.href = './index.html';
   } else {
     userInfoShow();
+    tasksList = await getTasks(jwt);
   }
 });
 

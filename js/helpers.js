@@ -1,4 +1,4 @@
-const baseUrl = 'https://todo-api.ctd.academy/v1';
+const baseUrl = 'http://http://todo-api.ctd.academy/v1';
 
 export async function getUser(jwt) {
     const config = {
