@@ -7,7 +7,8 @@ let mostrarSenhaIcone = document.getElementById("password-show");
 let lembrarLogin = document.getElementById("checkbox-remember"); 
 let spanEmail = document.getElementById("span-email");
 let spanSenha = document.getElementById("span-senha");
-// let loading = document.getElementById("btn")
+let loading = document.getElementById("loading");
+let textoBotao = document.getElementById("texto-botao");
 
 let loginUsuario = { 
     "email": emailLogin.value,
@@ -81,8 +82,10 @@ mostrarSenha.addEventListener("change",() => {
     }
 })
 
-
+//loading aqui
 async function fazerLogin() {
+  loading.classList.remove('hidden');
+  textoBotao.classList.add('hidden');
   const loginUsuarioJson = JSON.stringify(loginUsuario);
   const configuracoesRequisicao = {
     method: 'POST',
@@ -103,6 +106,8 @@ async function fazerLogin() {
     }
     window.location.href = './index.html';
   } else {
+    loading.classList.add('hidden');
+    textoBotao.classList.remove('hidden');
     alert('Usuário ou senha inválido');
   }
 }
