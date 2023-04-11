@@ -142,7 +142,7 @@ async function cadastro(){
     const resposta = await fetch("https://todo-api.ctd.academy/v1/users", configuracoesRequisicao)
     let chaveJwt = await resposta.json();
     if(chaveJwt.jwt){
-        window.location.href = "./index.html";
+        window.location.href = "./task.html";
        
     } else{ 
         loading.classList.add('hidden');

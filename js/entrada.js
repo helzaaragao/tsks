@@ -117,7 +117,7 @@ async function fazerLogin() {
 function valideUser(){ 
   let userToken = localStorage.getItem("chaveJwt"); 
   if(userToken){ //MUDA 
-    window.location.href = './index.html';
+    window.location.href = './tasks.html';
   }
 }
 
