@@ -19,24 +19,13 @@
     <header class="hidden bg-[#2B2A2E] flex w-screen h-24 gap-8 items-center px-8 sm:justify-between">
         <!-- menu hamburguer -->
         <label for="my-drawer-2"
-            class="btn btn-circle bg-transparent border-none swap swap-rotate btn-ghost drawer-button lg:hidden">
-
-            <!-- this hidden checkbox controls the state -->
-            <input type="checkbox" aria-label="menu hamburguer" />
+            class="btn btn-circle bg-transparent border-none btn-ghost drawer-button lg:hidden">
 
             <!-- hamburger icon -->
             <svg class="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                 viewBox="0 0 512 512">
                 <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
             </svg>
-
-            <!-- close icon -->
-            <svg class="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                viewBox="0 0 512 512">
-                <polygon
-                    points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
-            </svg>
-
         </label>
         <div>
             <img src="./images/logo.png" alt="Imagem com Logo do Aplicativo">
@@ -52,7 +41,7 @@
             </div>
 
             <!-- add button -->
-            <label for="my-modal"
+            <label for="new-task-modal"
                 class="hidden sm:block btn btn-sm bg-gradient-to-r from-pink-500 via-pink-600 to-pink-700 hover:bg-gradient-to-br cursor-pointer">
                 <i class="fi fi-rr-plus h-full flex items-center text-white"></i>
             </label>
@@ -240,7 +229,7 @@
                         </div>
                     </div>
                 </section>
-                <label for="my-modal"
+                <label for="new-task-modal"
                     class="sm:hidden absolute bottom-0 right-0 m-4 btn btn-sm btn-circle bg-gradient-to-r from-pink-500 via-pink-600 to-pink-700 hover:bg-gradient-to-br cursor-pointer">
                     <i class="fi fi-rr-plus h-full flex items-center text-white"></i>
                 </label>
@@ -276,15 +265,28 @@
             </nav>
         </section>
         <!-- Modal para adicionar tarefa -->
-        <input type="checkbox" id="my-modal" class="modal-toggle" />
+        <input type="checkbox" id="new-task-modal" class="modal-toggle" />
         <div class="modal modal-bottom sm:modal-middle">
             <div class="modal-box relative text-white bg-[#333333]">
-                <label for="my-modal" class="text-secondary font-bold cursor-pointer absolute right-2 top-1">✕</label>
+                <label for="new-task-modal" class="text-secondary font-bold cursor-pointer absolute right-2 top-1">✕</label>
                 <label for="new-task">Nova Tarefa</label>
                 <input id="new-task" type="text" placeholder="Digite sua tarefa"
                     class="w-full mt-1 h-10 px-2 bg-transparent border-[#d9d9d9] border rounded-lg">
                 <div class="modal-action">
-                    <label id="add-task" for="my-modal" class="btn btn-sm btn-secondary">Salvar</label>
+                    <label id="add-task" for="new-task-modal" class="btn btn-sm btn-secondary">Salvar</label>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para editar tarefa -->
+        <input type="checkbox" id="edit-task-modal" class="modal-toggle" />
+        <div class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box relative text-white bg-[#333333]">
+                <label for="edit-task-modal" class="text-secondary font-bold cursor-pointer absolute right-2 top-1">✕</label>
+                <label for="update-task">Editar Tarefa</label>
+                <input id="update-task" type="text" placeholder="Digite sua tarefa"
+                    class="w-full mt-1 h-10 px-2 bg-transparent border-[#d9d9d9] border rounded-lg">
+                <div class="modal-action">
+                    <label id="edit-task" for="edit-task-modal" class="btn btn-sm btn-secondary">Salvar</label>
                 </div>
             </div>
         </div>
