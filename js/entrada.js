@@ -7,7 +7,8 @@ let mostrarSenhaIcone = document.getElementById("password-show");
 let lembrarLogin = document.getElementById("checkbox-remember"); 
 let spanEmail = document.getElementById("span-email");
 let spanSenha = document.getElementById("span-senha");
-// let loading = document.getElementById("btn")
+let loading = document.getElementById("loading");
+let textoBotao = document.getElementById("texto-botao");
 
 let loginUsuario = { 
     "email": emailLogin.value,
@@ -83,8 +84,10 @@ mostrarSenha.addEventListener("change",() => {
     }
 })
 
-
+//loading aqui
 async function fazerLogin() {
+  loading.classList.remove('hidden');
+  textoBotao.classList.add('hidden');
   const loginUsuarioJson = JSON.stringify(loginUsuario);
   const configuracoesRequisicao = {
     method: 'POST',
@@ -105,6 +108,8 @@ async function fazerLogin() {
 
     window.location.href = './index.html';
   } else {
+    loading.classList.add('hidden');
+    textoBotao.classList.remove('hidden');
     alert('Usuário ou senha inválido');
   }
 }
@@ -121,18 +126,5 @@ botaoLogin.addEventListener("click", fazerLogin);
 
  /*
   FALTA FAZER:   
-   Um ícone de Loading enquanto ocorre o processo de login e de cadastro do usuário.
-    https://daisyui.com/components/button/ 
-    setTimeout(() => {
-        console.log('Acabou o tempo')}, 3000);
-        setTimeout(() => {
-            console.log('Acabou o tempo')}, 3000);
-    Verificar o cadastro e colocar as alterações 
-
-    <button type="button" class="bg-indigo-500 ..." disabled>
-  <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
-    <!-- ... -->
-  </svg>
-  Processing...
-</button>
+  Verificar o cadastro e colocar as alterações 
  */
