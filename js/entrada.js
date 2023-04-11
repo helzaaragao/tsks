@@ -14,14 +14,18 @@ let loginUsuario = {
     "password": senhaLogin.value
 } 
 
+//valideUser();
+
 emailLogin.addEventListener("input", () => {
     loginUsuario.email = emailLogin.value
-    valideForm();
+    valideEmailForm();
+    valideButaoForm();
 });
 
 senhaLogin.addEventListener("input", () => {
     loginUsuario.password = senhaLogin.value
-    valideForm();
+    valideSenhaForm();
+    valideButaoForm();
 });
 
 
@@ -31,36 +35,40 @@ function validEmail(email){
     return re.test(email);
 }
 
+function valideEmailForm(){ 
+  const emailValida = emailLogin.value.trim();
+  if (emailValida === "" || !validEmail(emailValida)) {
+    spanEmail.classList.remove("hidden");
+    botaoLogin.style.backgroundColor = "#CCCCCC";
+    botaoLogin.style.color = "#000000"; 
+    return false
+  } else {
+    spanEmail.classList.add("hidden");
+    return true
+  }
+}
 
-function valideForm(){ 
-    const emailValida = emailLogin.value.trim(); 
-    const senhaValida = senhaLogin.value.trim(); 
+function valideSenhaForm(){ 
+  const senhaValida = senhaLogin.value.trim(); 
+  if (senhaValida === "" || senhaValida.length < 8) {
+    spanSenha.classList.remove("hidden");
+    botaoLogin.style.backgroundColor = "#CCCCCC";
+    botaoLogin.style.color = "#000000";
+    return false
+  } else {
+    spanSenha.classList.add("hidden");
+    return true
+  }
+}
 
-    if (emailValida === "" && !validEmail(emailValida)) { 
-        spanEmail.classList.remove("hidden"); 
-        spanEmail.innerHTML = "Email inválido"
-        botaoLogin.disabled = true; 
-        botaoLogin.style.backgroundColor = "#CCCCCC";
-        botaoLogin.style.color = "#000000";
-    } else { 
-      spanEmail.classList.add("hidden");
-    }
-
-    if (senhaValida === "" && senhaValida.length < 8) { 
-      spanSenha.classList.remove("hidden"); 
-        botaoLogin.disabled = true;
-        spanSenha.innerHTML = "Senha inválido"
-        botaoLogin.style.backgroundColor = "#CCCCCC";
-        botaoLogin.style.color = "#000000";
-    }else { 
-        spanSenha.classList.add("hidden"); 
-        botaoLogin.disabled = false;
-        botaoLogin.style.backgroundColor = "#C7379C";
-        botaoLogin.style.color = "#FFFFFF";
-    }
-    
-   
-    
+function valideButaoForm(){
+    const emailValidado = valideEmailForm();
+    const senhaValidada = valideSenhaForm();
+    if (emailValidado && senhaValidada) { 
+      botaoLogin.disabled = false;
+      botaoLogin.style.backgroundColor = "#C7379C";
+      botaoLogin.style.color = "#FFFFFF";
+    }  
 }
 
 mostrarSenha.addEventListener("change",() => { 
@@ -94,9 +102,17 @@ async function fazerLogin() {
     } else {
       sessionStorage.setItem('chaveJwt', chaveJwt.jwt);
     }
+
     window.location.href = './index.html';
   } else {
     alert('Usuário ou senha inválido');
+  }
+}
+
+function valideUser(){ 
+  let userToken = localStorage.getItem("chaveJwt"); 
+  if(userToken){ //MUDA 
+    window.location.href = './index.html';
   }
 }
 
@@ -104,13 +120,19 @@ async function fazerLogin() {
 botaoLogin.addEventListener("click", fazerLogin);
 
  /*
-  FALTA FAZER:
-    Validação com o span mostrando ( ainda existe um bug)
-    Verificar o salvar senha + mostrar senha
-    Vai existir? Um ícone de Loading enquanto ocorre o processo de login e de cadastro do usuário.
+  FALTA FAZER:   
+   Um ícone de Loading enquanto ocorre o processo de login e de cadastro do usuário.
     https://daisyui.com/components/button/ 
     setTimeout(() => {
         console.log('Acabou o tempo')}, 3000);
         setTimeout(() => {
             console.log('Acabou o tempo')}, 3000);
+    Verificar o cadastro e colocar as alterações 
+
+    <button type="button" class="bg-indigo-500 ..." disabled>
+  <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+    <!-- ... -->
+  </svg>
+  Processing...
+</button>
  */
