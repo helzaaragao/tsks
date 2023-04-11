@@ -15,7 +15,7 @@ let loginUsuario = {
     "password": senhaLogin.value
 } 
 
-//valideUser();
+valideUser();
 
 emailLogin.addEventListener("input", () => {
     loginUsuario.email = emailLogin.value
@@ -105,7 +105,7 @@ async function fazerLogin() {
     } else {
       sessionStorage.setItem('chaveJwt', chaveJwt.jwt);
     }
-
+    //MUDA
     window.location.href = './index.html';
   } else {
     loading.classList.add('hidden');
@@ -126,5 +126,7 @@ botaoLogin.addEventListener("click", fazerLogin);
 
  /*
   FALTA FAZER:   
-  Verificar o cadastro e colocar as alterações 
+  Verificar se o llogin está okay e colocar a ValideUser em ação
+  Colocar o que falta no cadastro + verificar se está tudo okay
+   (ajeitar a responsividade dos dois)
  */

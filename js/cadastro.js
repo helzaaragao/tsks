@@ -9,6 +9,9 @@ let spanName = document.getElementById("span-name");
 let spanSobrenome = document.getElementById("span-sobrenome"); 
 let spanEmail = document.getElementById("span-email");
 let spanSenha = document.getElementById("span-senha");
+let loading = document.getElementById("loading");
+let textoBotao = document.getElementById("texto-botao");
+
 
 
 let registerUser = {
@@ -20,57 +23,98 @@ let registerUser = {
 
 nomeUser.addEventListener("input", () => {
     registerUser.firstName = nomeUser.value
-    valideForm()
+    valideNomeForm();
+    valideButaoForm();
 });
 
 sobrenomeUser.addEventListener("input", () => {
     registerUser.lastName = sobrenomeUser.value
-    valideForm()
+    valideSobrenomeForm();
+    valideButaoForm();
 });
 
 emailUser.addEventListener("input", () => {
     registerUser.email = emailUser.value
-    valideForm()
+    valideEmailForm();
+    valideButaoForm();
 });
 
 senhaUser.addEventListener("input", () => {
     registerUser.password = senhaUser.value
-    valideForm()
+    valideSenhaForm();
+    valideButaoForm();
 });
+
+
+function valideNomeForm(){ 
+    const nomeValida = nomeUser.value.trim();
+    if (nomeValida === "" || nomeValida.length < 2) {
+      spanName.classList.remove("hidden");
+      botaoUser.style.backgroundColor = "#CCCCCC";
+      botaoUser.style.color = "#000000"; 
+      return false
+    } else {
+      spanName.classList.add("hidden");
+      return true
+    }
+}
+
+function valideSobrenomeForm(){ 
+    const sobrenomeValida = sobrenomeUser.value.trim();
+    if (sobrenomeValida === "" || sobrenomeValida.length < 2) {
+      spanSobrenome.classList.remove("hidden");
+      botaoUser.style.backgroundColor = "#CCCCCC";
+      botaoUser.style.color = "#000000"; 
+      return false
+    } else {
+      spanSobrenome.classList.add("hidden");
+      return true
+    }
+}
+
 
 function validEmail(email){ 
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
 }
 
-function valideForm(){
-    const nameValida = nomeUser.value.trim(); 
-    const sobrenomeValida = sobrenomeUser.value.trim();
-    const emailValida = emailUser.value.trim(); 
-    const senhaValida = senhaUser.value.trim();
-
-    if (nameValida === "" || sobrenomeValida === "" || emailValida === "" || !validEmail(emailValida) || senhaValida === "" || senhaValida.length < 8){ 
-        spanName.classList.remove("hidden"); 
-        spanName.innerHTML = "Nome incompleto"
-        spanSobrenome.classList.remove("hidden"); 
-        spanSobrenome.innerHTML = "Sobrenome incompleto"
-        spanEmail.classList.remove("hidden"); 
-        spanEmail.innerHTML = "Email Inválido";
-        spanSenha.classList.remove("hidden"); 
-        spanSenha.innerHTML = "Senha Inválida";
-        botaoUser.disabled = true; 
-        botaoUser.style.backgroundColor = "#CCCCCC";
-        botaoUser.style.color = "#000000";
+function valideEmailForm(){ 
+    const emailValida = emailUser.value.trim();
+    if (emailValida === "" || !validEmail(emailValida)) {
+      spanEmail.classList.remove("hidden");
+      botaoUser.style.backgroundColor = "#CCCCCC";
+      botaoUser.style.color = "#000000"; 
+      return false
     } else {
-        spanName.classList.add("hidden");
-        spanSobrenome.classList.add("hidden"); 
-        spanEmail.classList.add("hidden");
-        spanSenha.classList.add("hidden"); 
+      spanEmail.classList.add("hidden");
+      return true
+    }
+}
+  
+  function valideSenhaForm(){ 
+    const senhaValida = senhaUser.value.trim(); 
+    if (senhaValida === "" || senhaValida.length < 8) {
+      spanSenha.classList.remove("hidden");
+      botaoUser.style.backgroundColor = "#CCCCCC";
+      botaoUser.style.color = "#000000";
+      return false
+    } else {
+      spanSenha.classList.add("hidden");
+      return true
+    }
+  }
+  
+  function valideButaoForm(){
+      const nameValidado = valideNomeForm();
+      const sobrenomeValidado = valideSobrenomeForm();
+      const emailValidado = valideEmailForm();
+      const senhaValidada = valideSenhaForm();
+      if ( nameValidado && sobrenomeValidado && emailValidado && senhaValidada ) { 
         botaoUser.disabled = false;
         botaoUser.style.backgroundColor = "#C7379C";
         botaoUser.style.color = "#FFFFFF";
-    }
-}
+      }  
+  }
 
 mostrarSenha.addEventListener("change",() => { 
     if (mostrarSenha.checked){ 
@@ -85,6 +129,8 @@ mostrarSenha.addEventListener("change",() => {
 })
 
 async function cadastro(){ 
+    loading.classList.remove('hidden');
+    textoBotao.classList.add('hidden');
     const registerUserJson = JSON.stringify(registerUser); 
     const configuracoesRequisicao = { 
         method: 'POST', 
@@ -99,6 +145,8 @@ async function cadastro(){
         window.location.href = "./index.html";
        
     } else{ 
+        loading.classList.add('hidden');
+        textoBotao.classList.remove('hidden');
         alert("Não foi possível realizar o cadastro")
     }
 }
