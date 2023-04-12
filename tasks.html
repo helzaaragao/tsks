@@ -33,9 +33,9 @@
         <nav class="h-full flex items-center gap-10 w-1/2 justify-end">
             <!-- search bar -->
             <div class="hidden md:flex items-center rounded-full bg-[#131317]/50 pr-2 w-full">
-                <input type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
+                <input id="input-search" type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
                     class="rounded-lg pl-4 bg-transparent outline-0 text-white w-full border-none focus:ring-transparent">
-                <button id="search" type="button" aria-label="Botão de pesquisa" class="w-10 h-10">
+                <button id="search" type="button" aria-label="Botão de pesquisa" class="w-10 h-10 cursor-pointer">
                     <i class="fi fi-rr-search text-white text-lg"></i>
                 </button>
             </div>
@@ -186,47 +186,20 @@
                     <h3 id="date" class="w-full pl-4 font-medium">01 de abr - Sab</h3>
                     <!-- mobile search bar -->
                     <div class="md:hidden flex items-center rounded-full bg-[#333333]/50 pr-2 w-2/3">
-                        <input type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
+                        <input id="mobile-input-search" type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
                             class="rounded-lg pl-4 bg-transparent outline-0 text-white w-full border-none focus:ring-transparent">
-                        <button type="button" aria-label="Botão de pesquisa" class="w-10 h-10">
+                        <button id="mobile-search" type="button" aria-label="Botão de pesquisa" class="w-10 h-10 search cursor-pointer">
                             <i class="fi fi-rr-search text-white text-lg"></i>
                         </button>
                     </div>
+                    <span id="search-span" class="text-gray-400 hidden w-full text-center">Nenhuma Tarefa encontrada</span>
                     <!-- Tarefas Pendentes -->
                     <div id="pendent-container" class="w-full p-8 flex flex-col gap-8">
                         <h2 class="w-full text-white text-2xl">Tarefas Pendentes</h2>
-                        <div id="task-loading-pendent" role="status"
-                            class="max-w-md p-4 space-y-4 border divide-y rounded shadow animate-pulse divide-gray-700 md:p-6 border-gray-700">
-                            <div class="flex items-center gap-4">
-                                <div class="rounded-full bg-gray-600 h-5 w-5"></div>
-                                <div class="flex items-center justify-between w-full">
-                                    <div>
-                                        <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
-                                        <div class="w-32 h-2 rounded-full bg-gray-700"></div>
-                                    </div>
-                                    <div class="h-2.5 rounded-full bg-gray-700 w-12 "></div>
-                                </div>
-                            </div>
-                            <span class="sr-only">Loading...</span>
-                        </div>
                     </div>
                     <!-- Tarefas Completas -->
                     <div id="completed-container" class="w-full p-8 flex flex-col gap-8">
                         <h2 class="w-full text-white text-2xl">Tarefas Completas</h2>
-                        <div id="task-loading-completed" role="status"
-                            class="max-w-md p-4 space-y-4 border divide-y rounded shadow animate-pulse divide-gray-700 md:p-6 border-gray-700">
-                            <div class="flex items-center gap-4">
-                                <div class="rounded-full bg-gray-600 h-5 w-5"></div>
-                                <div class="flex items-center justify-between w-full">
-                                    <div>
-                                        <div class="h-2.5 rounded-full bg-gray-600 w-24 mb-2.5"></div>
-                                        <div class="w-32 h-2 rounded-full bg-gray-700"></div>
-                                    </div>
-                                    <div class="h-2.5 rounded-full bg-gray-700 w-12 "></div>
-                                </div>
-                            </div>
-                            <span class="sr-only">Loading...</span>
-                        </div>
                     </div>
                 </section>
                 <label for="new-task-modal"
@@ -266,20 +239,21 @@
         </section>
         <!-- Modal para adicionar tarefa -->
         <input type="checkbox" id="new-task-modal" class="modal-toggle" />
-        <div class="modal modal-bottom sm:modal-middle">
+        <label id="add-modal-mask" class="modal modal-bottom sm:modal-middle" for="new-task-modal">
             <div class="modal-box relative text-white bg-[#333333]">
                 <label for="new-task-modal" class="text-secondary font-bold cursor-pointer absolute right-2 top-1">✕</label>
                 <label for="new-task">Nova Tarefa</label>
                 <input id="new-task" type="text" placeholder="Digite sua tarefa"
                     class="w-full mt-1 h-10 px-2 bg-transparent border-[#d9d9d9] border rounded-lg">
+                    <span id="span-add-task" class="hidden text-red-500 text-sm mt-1">O campo tarefa não pode estar vazio</span>
                 <div class="modal-action">
-                    <label id="add-task" for="new-task-modal" class="btn btn-sm btn-secondary">Salvar</label>
+                    <button id="add-task" type="button" class="btn btn-sm btn-secondary">Salvar</button>
                 </div>
             </div>
-        </div>
+        </label>
         <!-- Modal para editar tarefa -->
         <input type="checkbox" id="edit-task-modal" class="modal-toggle" />
-        <div class="modal modal-bottom sm:modal-middle">
+        <label class="modal modal-bottom sm:modal-middle" for="edit-task-modal">
             <div class="modal-box relative text-white bg-[#333333]">
                 <label for="edit-task-modal" class="text-secondary font-bold cursor-pointer absolute right-2 top-1">✕</label>
                 <label for="update-task">Editar Tarefa</label>
@@ -289,7 +263,7 @@
                     <label id="edit-task" for="edit-task-modal" class="btn btn-sm btn-secondary">Salvar</label>
                 </div>
             </div>
-        </div>
+        </label>
     </main>
     <script src="./js/script.js" type="module"></script>
 </body>

@@ -1,6 +1,25 @@
-const jwt = localStorage.getItem('jwt');
-import {getUser, getTasks, deleteTask, postTask, updateTask} from './helpers.js';
-let tasksList = [];
+const jwt = localStorage.getItem('chaveJwt');
+import { getUser, getTasks, deleteTask, postTask, updateTask } from './helpers.js';
+
+const pendentTasksContainer = document.querySelector('#pendent-container');
+const completedTasksContainer = document.querySelector('#completed-container');
+const buttonLogout = document.querySelector('#logout-btn');
+const timelineDate = document.querySelector('#date');
+const todayMenuItem = document.querySelector('#today');
+const yesterdayMenuItem = document.querySelector('#yesterday');
+const MonthMenuItem = document.querySelector('#month');
+const AllMenuItem = document.querySelector('#all-tasks');
+const buttonAddTask = document.querySelector('#add-task');
+const buttonEditTask = document.querySelector('#edit-task');
+const inputEditTask = document.querySelector('#update-task');
+const spanAddTask = document.querySelector('#span-add-task');
+const inputNewTask = document.querySelector('#new-task');
+const modalMask = document.querySelector('#add-modal-mask');
+const searchButton = document.querySelector('#search');
+const mobileSearchButton = document.querySelector('#mobile-search');
+const searchInput = document.querySelector('#input-search');
+const mobileSearchInput = document.querySelector('#mobile-input-search');
+const spanSearch = document.querySelector('#search-span');
 
 function showContent() {
     const header = document.querySelector('header');
@@ -25,7 +44,7 @@ async function userInfoShow() {
     userName.innerText = `${userResponse.firstName} ${userResponse.lastName}`;
     userEmail.innerText = userResponse.email;
     profileButton.innerText = `${userResponse.firstName.slice(0, 1)}${userResponse.lastName.slice(0, 1)}`;
-    showContent();    
+    showContent();  
   }
 }
 
@@ -34,20 +53,14 @@ function logout() {
   window.location.href = './index.html';  
 }
 
-const buttonLogout = document.querySelector('#logout-btn');
 buttonLogout.addEventListener('click', logout)
 
-const timelineDate = document.querySelector('#date');
 const date = new Date();
 const options = { month: 'short', day: 'numeric', weekday: 'short' };
 timelineDate.innerText = date
   .toLocaleDateString('pt-Br', options)
   .toUpperCase()
   .replaceAll('.', '');
-
-const pendentTasksContainer = document.querySelector('#pendent-container');
-
-const completedTasksContainer = document.querySelector('#completed-container');
 
 async function removeTask(id, e) {
     const deletedTask = await deleteTask(id, jwt)
@@ -95,21 +108,25 @@ function createTaskCard(description, createdAt, completed, id) {
   checkboxTask.addEventListener('change', (e) => changeStatus(id, e));
   taskText.appendChild(checkboxTask);
 
-  const labelTask = newElement('label', [], description); 
+  const labelTask = newElement('label', [], description);
+  labelTask.id = `label-${id}`;
   taskText.appendChild(labelTask);
 
   const taskInfo = newElement('div', ['flex', 'flex-col', 'h-16', 'justify-between', 'items-end', 'w-1/4', 'pt-1']);
 
   const taskIcons = newElement('div', ['flex', 'gap-2', 'justify-end', 'w-full']);
 
-  const taskEdit = newElement('i', ['fi', 'fi-rr-edit', 'text-lg', 'hover:text-white', 'cursor-pointer']);
-  taskEdit.addEventListener('click', (e) => console.log(e.target));
-  taskIcons.appendChild(taskEdit);
-  
+  const taskEdit = newElement('label');
+  taskEdit.setAttribute('for', 'edit-task-modal');
+  taskEdit.addEventListener('click', () => {
+    inputEditTask.value = labelTask.textContent;
+    editTask(id);
+  })
+  const taskEditIcon = newElement('i', ['fi', 'fi-rr-edit', 'text-lg', 'hover:text-white', 'cursor-pointer']);
+  taskEdit.appendChild(taskEditIcon);
 
   const taskTrash = newElement('i', ['fi', 'fi-rr-trash', 'text-lg', 'hover:text-white', 'cursor-pointer']);
   taskTrash.addEventListener('click', (e) => removeTask(id, e));
-  taskIcons.appendChild(taskTrash);
   taskInfo.appendChild(taskIcons);
 
   const dateAtTask = new Date(createdAt);
@@ -121,57 +138,68 @@ function createTaskCard(description, createdAt, completed, id) {
 
   if (!completed) {
     taskText.classList.add('flex', 'items-center', 'gap-4', 'text-white', 'w-full');
+    taskIcons.appendChild(taskEdit);
+    taskIcons.appendChild(taskTrash);
   } else {
     taskText.classList.add('flex', 'items-center', 'gap-4', 'line-through', 'w-full');
+    taskIcons.appendChild(taskTrash);
   }
 
   return taskCard;
 }
 
-async function showPendentTasks() {
-  if (tasksList !== 'invalid token') {
-    const pendentSkelleton = document.querySelector('#task-loading-pendent');
-    pendentSkelleton.classList.add('hidden');
-
-    if (tasksList.length > 0) {
-        tasksList.forEach(({ description, createdAt, completed, id }) => {
-            if (!completed) {
-            const task = createTaskCard(description, createdAt, completed, id);
-            pendentTasksContainer.appendChild(task);
-            }
-        });
-    }
-  }
+async function showAllTasks() {
+  const tasksList = await getTasks(jwt);
+  if (tasksList.length > 0) {
+    tasksList.forEach(({ description, createdAt, completed, id }) => {
+        if (!completed) {
+        const task = createTaskCard(description, createdAt, completed, id);
+        pendentTasksContainer.appendChild(task);
+        } else {
+          const task = createTaskCard(description, createdAt, completed, id);
+          completedTasksContainer.appendChild(task);
+        }
+    });
+}
 }
 
-async function showCompletedTasks() {
-  if (tasksList !== 'invalid token') {
-    const completedSkelleton = document.querySelector('#task-loading-completed');
-    completedSkelleton.classList.add('hidden');
-    
-    if (tasksList.length > 0) {
-        tasksList.forEach(({ description, createdAt, completed, id }) => {
-            if (completed) {
-            const task = createTaskCard(description, createdAt, completed, id);
-            completedTasksContainer.appendChild(task);
-            }
-        });
-    }
-  }  
-}
-
-async function createtask() {
-    const inputNewTask = document.querySelector('#new-task');
-    if (inputNewTask.value.length > 0) {
-      const { id, description, completed, createdAt } = await postTask(jwt, inputNewTask.value);
-      const createdTask = createTaskCard(description, createdAt, completed, id);
+async function createTask() {
+  if (inputNewTask.value.length > 0) {
+    const data = await postTask(jwt, inputNewTask.value);
+    if (typeof data === 'object') {
+      const createdTask = createTaskCard(data.description, data.createdAt, data.completed, data.id);
       pendentTasksContainer.appendChild(createdTask);
       inputNewTask.value = '';
     } else {
-
-    }
-    
+      console.log(data);
+    }      
+  } else {
+    inputNewTask.classList.replace('border-[#d9d9d9]', 'border-red-500')
+    spanAddTask.classList.remove('hidden');
+  }
 }
+
+modalMask.addEventListener('focusout', () => {
+  spanAddTask.classList.add('hidden');
+  inputNewTask.classList.replace('border-red-500', 'border-[#d9d9d9]');
+})
+
+function editTask(id) {
+  buttonEditTask.addEventListener('click', async () => {
+    const taskDescription = document.querySelector(`#label-${id}`)
+    if (inputEditTask.value.length > 0) {
+      const data = await updateTask(jwt, {description: inputEditTask.value}, id);
+      if (typeof data === 'object') {
+        taskDescription.innerText = inputEditTask.value;
+        inputEditTask.value = '';
+      } else {
+        console.log(data);
+      }      
+    }
+  });    
+}
+
+buttonEditTask.addEventListener('click', editTask);
 
 function tasksFilter(filteredList) {
   if (filteredList.length > 0) {
@@ -191,40 +219,84 @@ function tasksFilter(filteredList) {
   }
 }
 
-function todayFilter() {
+async function todayFilter() {
+  const tasksList = await getTasks(jwt);
   const today = new Date();
   const filteredList = tasksList.filter(({ createdAt }) => Date.parse((new Date(createdAt)).toLocaleDateString('pt-BR')) === Date.parse(today.toLocaleDateString('pt-BR')));
   tasksFilter(filteredList);
 }
 
-function yesterdayFilter() {
+async function yesterdayFilter() {
+  const tasksList = await getTasks(jwt);
   const today = new Date();
   const yesterday = new Date(today.setHours(-1));
   const filteredList = tasksList.filter(({ createdAt }) => Date.parse((new Date(createdAt)).toLocaleDateString('pt-BR')) === Date.parse(yesterday.toLocaleDateString('pt-BR')));
   tasksFilter(filteredList);
 }
 
-const todayMenuItem = document.querySelector('#today');
+async function monthFilter() {
+  const tasksList = await getTasks(jwt);
+  const today = new Date();
+  const filteredList = tasksList.filter(({ createdAt }) => (new Date(createdAt)).getMonth() === today.getMonth());
+  tasksFilter(filteredList);
+}
+
+async function allTasksFilter() {
+  const tasksList = await getTasks(jwt);
+  tasksFilter(tasksList);
+}
+
+async function searchTasks(input, spanErro) {
+  const tasksList = await getTasks(jwt);
+  const foundTasks = tasksList.filter(({ description }) => description.toLowerCase().includes(input));
+  if (foundTasks.length > 0) {
+    tasksFilter(foundTasks);
+  } else {
+    spanErro.classList.remove('hidden');
+  }
+}
+
+searchButton.addEventListener('click', (e) => {
+  const inputSearch = e.target.parentNode.previousSibling['previousSibling'].value
+  searchTasks(inputSearch, spanSearch);
+})
+mobileSearchButton.addEventListener('click', (e) => {
+  const inputSearch = e.target.parentNode.previousSibling['previousSibling'].value
+  searchTasks(inputSearch, spanSearch);
+})
+
+searchInput.addEventListener('input', (e) => {
+  if (e.target.value.length === 0) {
+    spanSearch.classList.add('hidden');
+    searchTasks(e.target.value);
+  }
+})
+mobileSearchInput.addEventListener('input', (e) => {
+  if (e.target.value.length === 0) {
+    spanSearch.classList.add('hidden');
+    searchTasks(e.target.value);
+  }
+})
+
 todayMenuItem.addEventListener('click', todayFilter);
 
-const yesterdayMenuItem = document.querySelector('#yesterday');
 yesterdayMenuItem.addEventListener('click', yesterdayFilter);
 
-const buttonAddTask = document.querySelector('#add-task');
-buttonAddTask.addEventListener('click', createtask);
+MonthMenuItem.addEventListener('click', monthFilter);
+
+AllMenuItem.addEventListener('click', allTasksFilter);
+
+buttonAddTask.addEventListener('click', createTask);
 
 document.addEventListener('DOMContentLoaded', async () => {
   if (jwt === null || jwt === undefined || jwt === '') {
     window.location.href = './index.html';
   } else {
     userInfoShow();
-    tasksList = await getTasks(jwt);
   }
 });
 
 window.onload = () => {
-    showPendentTasks();
-    showCompletedTasks();
+    showAllTasks();
 }
 
-const search = document.querySelector('#search');
