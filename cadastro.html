@@ -11,8 +11,9 @@
     <link rel="icon" href="./assets/logo.png">
     <title>Cadastra-se</title>
 </head>
-<body class="bg-[#131317] text-[#FFFFFF] flex flex-col sm:flex-row justify-center items-center w-screen min-h-screen">
-    <header class="mb-10 sm:mb-0">
+<body class="bg-[#131317]">
+    <main class="text-[#FFFFFF] flex flex-col sm:flex-row justify-center items-center w-screen min-h-screen">
+    <section class="mb-10 sm:mb-0">
         <picture class="flex justify-center items-center w-screen sm:w-full sm:flex-col sm:mr-40">
             <img class="w-36 sm:w-[13rem]" src="./assets/logo.png" alt="">
             <img  class="w-28 sm:w-36" src="./assets/tsks.png" alt="">
@@ -20,8 +21,8 @@
         <text class="text-center text-lg sm:p-6 sm:text-2xl">
             <h3>Organize sua vida</h3>
         </text>
-    </header>
-    <form class="flex flex-col p-4 leading-10 w-42">
+    </section>
+    <form class="flex flex-col p-4 leading-10 w-46">
         <h1 class="text-center text-3xl font-semibold mb-5">Register</h1>
         <label for="name" class="text-[1.1rem]">Nome</label>
         <input type="name" name="name" id="name" placeholder="Digite seu nome" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6 sm:w-[24rem]">
@@ -33,20 +34,16 @@
         <input type="email"name="email" id="email" placeholder="Digite seu email" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6 sm:w-[24rem]">
         <span class="text-[#C7379C] hidden" id="span-email">Email Inválido</span>
         <label for="password" class="text-[1.1rem]">Crie sua senha</label>
-        <div class="flex flex-row justify-center w-42">
-            <input type="password" name="password" id="password" placeholder="Digite sua senha" class="h-12 rounded-2xl border-2 border-[#C7379C] bg-[#131317] p-6 sm:w-[24rem]">
+        <div class="flex rounded-2xl border-2 border-[#C7379C] items-center justify-between pr-4 pl-1 w-42">
+            <input type="password" name="password" id="password" placeholder="Digite sua senha" class="rounded-2xl h-12 bg-[#131317] border-0 focus:ring-0 sm:w-[20rem]">
             <div>   
                 <input type="checkbox" id="show-password-checkbox" class="hidden">
                 <label for="show-password-checkbox" aria-label="Mostrar senha" class="cursor-pointer">
                     <i id="password-show" class="fi fi-rr-eye-crossed text-gray-500 flex items-center"></i>
                 </label>
-
-
             </div>
         </div>
         <span class="text-[#C7379C] hidden" id="span-senha">Senha Inválida</span>
-        
-        
 
         <button type="button" disabled id="button"class="bg-[#C7379C] rounded-2xl text-2xl h-12 text-center mt-6"><div role="status">
             <svg id="loading" aria-hidden="true" class="hidden inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,5 +55,6 @@
         <span id="texto-botao" class="">Entrar</span></button>
         <p class="mt-4 text-center">Já tem conta?<a href="./index.html" class="text-[#C7379C]"> Login</a></p>
     </form>
+    </main>
 </body>
 </html>
