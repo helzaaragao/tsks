@@ -49,7 +49,7 @@ async function userInfoShow() {
 }
 
 function logout() {
-  localStorage.removeItem('jwt');
+  localStorage.removeItem('chaveJwt');
   window.location.href = './index.html';  
 }
 
