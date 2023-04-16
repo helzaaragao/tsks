@@ -242,7 +242,7 @@ function tasksFilter(filteredList) {
 async function todayFilter() {
   const tasksList = await getTasks(jwt);
   const today = new Date();
-  const filteredList = tasksList.filter(({ createdAt }) => Date.parse((new Date(createdAt)).toLocaleDateString('pt-BR')) === Date.parse(today.toLocaleDateString('pt-BR')));
+  const filteredList = tasksList.filter(({ createdAt }) => (new Date(createdAt)).toLocaleDateString('pt-BR') === today.toLocaleDateString('pt-BR'));
   tasksFilter(filteredList);
 }
 
@@ -250,7 +250,7 @@ async function yesterdayFilter() {
   const tasksList = await getTasks(jwt);
   const today = new Date();
   const yesterday = new Date(today.setHours(-1));
-  const filteredList = tasksList.filter(({ createdAt }) => Date.parse((new Date(createdAt)).toLocaleDateString('pt-BR')) === Date.parse(yesterday.toLocaleDateString('pt-BR')));
+  const filteredList = tasksList.filter(({ createdAt }) => (new Date(createdAt)).toLocaleDateString('pt-BR') === yesterday.toLocaleDateString('pt-BR'));
   tasksFilter(filteredList);
 }
 
