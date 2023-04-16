@@ -16,7 +16,7 @@
 </head>
 
 <body class="font-['Montserrat']">
-    <header class="hidden bg-[#2B2A2E] flex w-screen h-24 gap-8 items-center px-8 sm:justify-between">
+    <header class="hidden bg-[#2B2A2E] flex w-screen h-24 gap-4 sm:gap-8 items-center px-8 sm:justify-between">
         <!-- menu hamburguer -->
         <label for="my-drawer-2"
             class="btn btn-circle bg-transparent border-none btn-ghost drawer-button lg:hidden">
@@ -27,7 +27,7 @@
                 <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
             </svg>
         </label>
-        <img src="./assets/taskLogo.png" alt="Imagem com Logo do Aplicativo">
+        <img class="w-44 sm:w-52" src="./assets/taskLogo.png" alt="Imagem com Logo do Aplicativo">
         <nav class="h-full flex items-center gap-10 w-1/2 justify-end">
             <!-- search bar -->
             <form id="search" class="hidden md:flex items-center rounded-full bg-[#131317]/50 pr-2 w-full">
@@ -178,7 +178,7 @@
         </section>
         <section id="content" class="hidden drawer drawer-mobile">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-            <div class="drawer-content flex flex-col min-h-screen relative">
+            <div class="drawer-content flex flex-col min-h-screen">
                 <!-- Tarefas Listadas -->
                 <section id="tasks-container" class="pt-2 flex flex-col items-center w-full gap-8 drawer-content h-ful">
                     <h3 id="date" class="w-full pl-4 font-medium">01 de abr - Sab</h3>
@@ -201,7 +201,7 @@
                     </div>
                 </section>
                 <label for="new-task-modal"
-                    class="sm:hidden absolute bottom-0 right-0 m-4 btn btn-sm btn-circle bg-gradient-to-r from-pink-500 via-pink-600 to-pink-700 hover:bg-gradient-to-br cursor-pointer">
+                    class="sm:hidden self-end m-8 btn btn-sm btn-circle bg-gradient-to-r from-pink-500 via-pink-600 to-pink-700 hover:bg-gradient-to-br cursor-pointer">
                     <i class="fi fi-rr-plus h-full flex items-center text-white"></i>
                 </label>
             </div>
