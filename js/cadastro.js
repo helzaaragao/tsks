@@ -50,8 +50,6 @@ function valideNomeForm(){
     const nomeValida = nomeUser.value.trim();
     if (nomeValida === "" || nomeValida.length < 2) {
       spanName.classList.remove("hidden");
-      botaoUser.style.backgroundColor = "#CCCCCC";
-      botaoUser.style.color = "#000000"; 
       return false
     } else {
       spanName.classList.add("hidden");
@@ -62,9 +60,7 @@ function valideNomeForm(){
 function valideSobrenomeForm(){ 
     const sobrenomeValida = sobrenomeUser.value.trim();
     if (sobrenomeValida === "" || sobrenomeValida.length < 2) {
-      spanSobrenome.classList.remove("hidden");
-      botaoUser.style.backgroundColor = "#CCCCCC";
-      botaoUser.style.color = "#000000"; 
+      spanSobrenome.classList.remove("hidden"); 
       return false
     } else {
       spanSobrenome.classList.add("hidden");
@@ -82,8 +78,6 @@ function valideEmailForm(){
     const emailValida = emailUser.value.trim();
     if (emailValida === "" || !validEmail(emailValida)) {
       spanEmail.classList.remove("hidden");
-      botaoUser.style.backgroundColor = "#CCCCCC";
-      botaoUser.style.color = "#000000"; 
       return false
     } else {
       spanEmail.classList.add("hidden");
@@ -95,8 +89,6 @@ function valideEmailForm(){
     const senhaValida = senhaUser.value.trim(); 
     if (senhaValida === "" || senhaValida.length < 8) {
       spanSenha.classList.remove("hidden");
-      botaoUser.style.backgroundColor = "#CCCCCC";
-      botaoUser.style.color = "#000000";
       return false
     } else {
       spanSenha.classList.add("hidden");

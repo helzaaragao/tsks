@@ -11,8 +11,8 @@ let loading = document.getElementById("loading");
 let textoBotao = document.getElementById("texto-botao");
 
 let loginUsuario = { 
-    "email": emailLogin.value,
-    "password": senhaLogin.value
+    email: '',
+    password: ''
 } 
 
 valideUser();
@@ -20,13 +20,13 @@ valideUser();
 emailLogin.addEventListener("input", () => {
     loginUsuario.email = emailLogin.value
     valideEmailForm();
-    valideButaoForm();
+    valideBotaoForm();
 });
 
 senhaLogin.addEventListener("input", () => {
     loginUsuario.password = senhaLogin.value
     valideSenhaForm();
-    valideButaoForm();
+    valideBotaoForm();
 });
 
 
@@ -40,8 +40,6 @@ function valideEmailForm(){
   const emailValida = emailLogin.value.trim();
   if (emailValida === "" || !validEmail(emailValida)) {
     spanEmail.classList.remove("hidden");
-    botaoLogin.style.backgroundColor = "#CCCCCC";
-    botaoLogin.style.color = "#000000"; 
     return false
   } else {
     spanEmail.classList.add("hidden");
@@ -53,8 +51,6 @@ function valideSenhaForm(){
   const senhaValida = senhaLogin.value.trim(); 
   if (senhaValida === "" || senhaValida.length < 8) {
     spanSenha.classList.remove("hidden");
-    botaoLogin.style.backgroundColor = "#CCCCCC";
-    botaoLogin.style.color = "#000000";
     return false
   } else {
     spanSenha.classList.add("hidden");
@@ -62,7 +58,7 @@ function valideSenhaForm(){
   }
 }
 
-function valideButaoForm(){
+function valideBotaoForm(){
     const emailValidado = valideEmailForm();
     const senhaValidada = valideSenhaForm();
     if (emailValidado && senhaValidada) { 
@@ -75,12 +71,12 @@ function valideButaoForm(){
 mostrarSenha.addEventListener("change",() => { 
     if (mostrarSenha.checked){ 
         senhaLogin.type = "text";
-        mostrarSenhaIcone.classList.remove('fi-rr-eye-crossed');
-        mostrarSenhaIcone.classList.add('fi-rr-eye');
-    } else { 
-        senhaLogin.type = "password";
         mostrarSenhaIcone.classList.remove('fi-rr-eye');
         mostrarSenhaIcone.classList.add('fi-rr-eye-crossed');
+    } else { 
+        senhaLogin.type = "password";
+        mostrarSenhaIcone.classList.remove('fi-rr-eye-crossed');
+        mostrarSenhaIcone.classList.add('fi-rr-eye');
     }
 })
 
@@ -105,8 +101,7 @@ async function fazerLogin() {
     } else {
       sessionStorage.setItem('chaveJwt', chaveJwt.jwt);
     }
-    //MUDA
-    window.location.href = './index.html';
+    window.location.href = './tasks.html';
   } else {
     loading.classList.add('hidden');
     textoBotao.classList.remove('hidden');

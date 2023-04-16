@@ -1,5 +1,24 @@
-const jwt = localStorage.getItem('chaveJwt');
 import { getUser, getTasks, deleteTask, postTask, updateTask } from './helpers.js';
+
+function getToken() {
+  const localJwt = localStorage.getItem('chaveJwt');
+  const sessionJwt = sessionStorage.getItem('chaveJwt');
+  if(sessionJwt) {
+    return sessionJwt
+  } else if (localJwt) {
+    return localJwt;
+  }
+}
+
+const jwt = getToken();
+
+document.addEventListener('DOMContentLoaded', async () => {
+  if (jwt === null || jwt === undefined || jwt === '') {
+    window.location.href = './index.html';
+  } else {
+    userInfoShow();
+  }
+});
 
 const pendentTasksContainer = document.querySelector('#pendent-container');
 const completedTasksContainer = document.querySelector('#completed-container');
@@ -15,8 +34,8 @@ const inputEditTask = document.querySelector('#update-task');
 const spanAddTask = document.querySelector('#span-add-task');
 const inputNewTask = document.querySelector('#new-task');
 const modalMask = document.querySelector('#add-modal-mask');
-const searchButton = document.querySelector('#search');
-const mobileSearchButton = document.querySelector('#mobile-search');
+const searchForm = document.querySelector('#search');
+const mobileSearchForm = document.querySelector('#mobile-search');
 const searchInput = document.querySelector('#input-search');
 const mobileSearchInput = document.querySelector('#mobile-input-search');
 const spanSearch = document.querySelector('#search-span');
@@ -50,6 +69,7 @@ async function userInfoShow() {
 
 function logout() {
   localStorage.removeItem('chaveJwt');
+  sessionStorage.removeItem('chaveJwt');
   window.location.href = './index.html';  
 }
 
@@ -121,7 +141,7 @@ function createTaskCard(description, createdAt, completed, id) {
   taskEdit.addEventListener('click', () => {
     inputEditTask.value = labelTask.textContent;
     editTask(id);
-  })
+  });
   const taskEditIcon = newElement('i', ['fi', 'fi-rr-edit', 'text-lg', 'hover:text-white', 'cursor-pointer']);
   taskEdit.appendChild(taskEditIcon);
 
@@ -256,27 +276,31 @@ async function searchTasks(input, spanErro) {
   }
 }
 
-searchButton.addEventListener('click', (e) => {
-  const inputSearch = e.target.parentNode.previousSibling['previousSibling'].value
-  searchTasks(inputSearch, spanSearch);
-})
-mobileSearchButton.addEventListener('click', (e) => {
-  const inputSearch = e.target.parentNode.previousSibling['previousSibling'].value
-  searchTasks(inputSearch, spanSearch);
-})
+searchForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const inputValue = searchInput.value
+  searchTasks(inputValue, spanSearch);
+});
+
+mobileSearchForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const inputValue = mobileSearchInput.value
+  searchTasks(inputValue, spanSearch);
+});
 
 searchInput.addEventListener('input', (e) => {
   if (e.target.value.length === 0) {
     spanSearch.classList.add('hidden');
     searchTasks(e.target.value);
   }
-})
+});
+
 mobileSearchInput.addEventListener('input', (e) => {
   if (e.target.value.length === 0) {
     spanSearch.classList.add('hidden');
     searchTasks(e.target.value);
   }
-})
+});
 
 todayMenuItem.addEventListener('click', todayFilter);
 
@@ -287,14 +311,6 @@ MonthMenuItem.addEventListener('click', monthFilter);
 AllMenuItem.addEventListener('click', allTasksFilter);
 
 buttonAddTask.addEventListener('click', createTask);
-
-document.addEventListener('DOMContentLoaded', async () => {
-  if (jwt === null || jwt === undefined || jwt === '') {
-    window.location.href = './index.html';
-  } else {
-    userInfoShow();
-  }
-});
 
 window.onload = () => {
     showAllTasks();

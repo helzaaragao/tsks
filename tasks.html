@@ -27,18 +27,16 @@
                 <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
             </svg>
         </label>
-        <div>
-            <img src="./assets/taskLogo.png" alt="Imagem com Logo do Aplicativo">
-        </div>
+        <img src="./assets/taskLogo.png" alt="Imagem com Logo do Aplicativo">
         <nav class="h-full flex items-center gap-10 w-1/2 justify-end">
             <!-- search bar -->
-            <div class="hidden md:flex items-center rounded-full bg-[#131317]/50 pr-2 w-full">
+            <form id="search" class="hidden md:flex items-center rounded-full bg-[#131317]/50 pr-2 w-full">
                 <input id="input-search" type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
                     class="rounded-lg pl-4 bg-transparent outline-0 text-white w-full border-none focus:ring-transparent">
-                <button id="search" type="button" aria-label="Botão de pesquisa" class="w-10 h-10 cursor-pointer">
+                <button type="submit" aria-label="Botão de pesquisa" class="w-10 h-10 cursor-pointer">
                     <i class="fi fi-rr-search text-white text-lg"></i>
                 </button>
-            </div>
+            </form>
 
             <!-- add button -->
             <label for="new-task-modal"
@@ -185,13 +183,13 @@
                 <section id="tasks-container" class="pt-2 flex flex-col items-center w-full gap-8 drawer-content h-ful">
                     <h3 id="date" class="w-full pl-4 font-medium">01 de abr - Sab</h3>
                     <!-- mobile search bar -->
-                    <div class="md:hidden flex items-center rounded-full bg-[#333333]/50 pr-2 w-2/3">
+                    <form id="mobile-search" class="md:hidden flex items-center rounded-full bg-[#333333]/50 pr-2 w-2/3">
                         <input id="mobile-input-search" type="text" placeholder="Buscar" aria-label="Campo de pesquisa"
                             class="rounded-lg pl-4 bg-transparent outline-0 text-white w-full border-none focus:ring-transparent">
-                        <button id="mobile-search" type="button" aria-label="Botão de pesquisa" class="w-10 h-10 search cursor-pointer">
+                        <button type="submit" aria-label="Botão de pesquisa" class="w-10 h-10 search cursor-pointer">
                             <i class="fi fi-rr-search text-white text-lg"></i>
                         </button>
-                    </div>
+                    </form>
                     <span id="search-span" class="text-gray-400 hidden w-full text-center">Nenhuma Tarefa encontrada</span>
                     <!-- Tarefas Pendentes -->
                     <div id="pendent-container" class="w-full p-8 flex flex-col gap-8">
