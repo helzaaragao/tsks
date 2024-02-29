@@ -111,17 +111,10 @@ async function fazerLogin() {
 
 function valideUser(){ 
   let userToken = localStorage.getItem("chaveJwt"); 
-  if(userToken){ //MUDA 
+  if(userToken){ 
     window.location.href = './tasks.html';
   }
 }
 
 
 botaoLogin.addEventListener("click", fazerLogin);
-
- /*
-  FALTA FAZER:   
-  Verificar se o llogin está okay e colocar a ValideUser em ação
-  Colocar o que falta no cadastro + verificar se está tudo okay
-   (ajeitar a responsividade dos dois)
- */
