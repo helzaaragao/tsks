@@ -1,4 +1,4 @@
-const baseUrl = 'https://todo-api.ctd.academy/v1';
+const baseUrl = 'https://67e2fbd097fc65f535385946.mockapi.io/tsks';
 
 export async function getUser(jwt) {
     const config = {
@@ -8,7 +8,7 @@ export async function getUser(jwt) {
         }
     };
     try {
-        const response = await fetch(`${baseUrl}/users/getMe`, config);
+        const response = await fetch(`${baseUrl}/users`, config);
         const data = await response.json();
         return data;
     } catch (error) {

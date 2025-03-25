@@ -131,7 +131,7 @@ async function cadastro(){
             'Content-type': 'application/json'
         },
     }
-    const resposta = await fetch("https://todo-api.ctd.academy/v1/users", configuracoesRequisicao)
+    const resposta = await fetch("https://67e2fbd097fc65f535385946.mockapi.io/tsks/users", configuracoesRequisicao)
     let chaveJwt = await resposta.json();
     if(chaveJwt.jwt){
         localStorage.setItem('chaveJwt', chaveJwt.jwt);

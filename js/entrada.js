@@ -92,7 +92,7 @@ async function fazerLogin() {
       'Content-type': 'application/json',
     },
   };
-  const resposta = await fetch('https://todo-api.ctd.academy/v1/users/login',
+  const resposta = await fetch('https://67e2fbd097fc65f535385946.mockapi.io/tsks/users',
     configuracoesRequisicao);
   let chaveJwt = await resposta.json();
   if (chaveJwt.jwt) {
